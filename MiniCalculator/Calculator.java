@@ -13,9 +13,8 @@ public class Calculator{
 
 	public void calculate(String[] input){
 		int answer = Integer.parseInt(input[0]);
-		for (int i = 0; i < input.length; i++) {
-			if (i%2!=0)
-				switch(input[i]){
+		for (int i = 1; i < input.length; i+=2) {
+			switch(input[i]){
 				case "+": answer = adder.add(answer, Integer.parseInt(input[i+1])); break;
 				case "-": answer = subtracter.subtract(answer, Integer.parseInt(input[i+1])); break;
 				case "/": answer = divider.divide(answer, Integer.parseInt(input[i+1])); break;
