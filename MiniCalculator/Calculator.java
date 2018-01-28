@@ -1,31 +1,29 @@
 public class Calculator{
-	private String[] parsedInput;
-	private int operand1;
-	private int operand2;
-	private String operator;
-
+	private Adder adder;
+	private Subtracter subtracter;
+	private Divider divider;
+	private Multiplier multiplier;
+	
 	public Calculator(){
-		this.parsedInput = new String[3];
-		this.operand1 = 0;
-		this.operand2 = 0;
-		this.operator = "";
+		adder = new Adder();
+		subtracter = new Subtracter();
+		divider = new Divider();
+		multiplier = new Multiplier();
 	}
 
-	public void calculate(String input){
-		int answer = 0;
-		this.parsedInput = input.split(" ");
-		this.operand1 = Integer.parseInt(this.parsedInput[0]);
-		this.operator = this.parsedInput[1];
-		this.operand2 = Integer.parseInt(this.parsedInput[2]);
-		switch(operator){
-			case "+": answer = operand1 + operand2; break;
-			case "-": answer = operand1 - operand2; break;
-			case "/": answer = operand1 / operand2; break;
-			case "x": answer = operand1 * operand2; break;
+	public void calculate(String[] input){
+		int answer = Integer.parseInt(input[0]);
+		for (int i = 0; i < input.length; i++) {
+			if (i%2!=0)
+				switch(input[i]){
+				case "+": answer = adder.add(answer, Integer.parseInt(input[i+1])); break;
+				case "-": answer = subtracter.subtract(answer, Integer.parseInt(input[i+1])); break;
+				case "/": answer = divider.divide(answer, Integer.parseInt(input[i+1])); break;
+				case "x": answer = multiplier.multiply(answer, Integer.parseInt(input[i+1])); break;
+			}
 		}
-		
 		
 		System.out.println(answer);
 	}
-
+	
 }
