@@ -16,7 +16,6 @@ public class Calculator{
 							count++;
 						    answer = ((Subtracter)calcu_S).Solve(answer, Integer.parseInt(input[i+1]));
 						  }	 answer = count; break;
-				case "*":
 				case "x": int temp = answer;
 						  for(int j = 1; j < Integer.parseInt(input[i+1]); j++)
 							answer = ((Adder)calcu_A).Solve(answer, temp); break;
