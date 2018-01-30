@@ -1,9 +1,9 @@
-public class Subtracter{
+public class Subtracter implements Calculate{
 	public Subtracter(){
 		
 	}
 	
-	public int subtract(int operand1, int operand2){
+	public int Solve(int operand1, int operand2){
 		return operand1 - operand2;
 	}
 }
