@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 
 public abstract class DataParser {
-	protected ArrayList<List> records = new ArrayList<List>();
+	protected ArrayList<List> records;
 	public void parseDataAndGenerateOutput() {
 		readData();
 		processData();
