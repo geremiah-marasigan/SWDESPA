@@ -23,7 +23,7 @@ public abstract class DataParser {
 			}
 		//System.out.println(builder.toString());
 		try{
-			FileWriter writer = new FileWriter("final.csv");
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("output.csv", true))); 
 			System.out.print(builder.toString());
 			writer.write(builder.toString());
 			writer.flush();
