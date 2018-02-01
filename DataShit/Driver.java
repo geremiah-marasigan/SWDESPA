@@ -1,5 +1,3 @@
-package cry;
-
 public class Driver {
 	public static void main(String[] args) {
 		CSVDataParser csvDataParser = new CSVDataParser();
