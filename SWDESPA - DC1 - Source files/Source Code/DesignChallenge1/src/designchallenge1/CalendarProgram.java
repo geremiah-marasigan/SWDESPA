@@ -34,6 +34,9 @@ public class CalendarProgram{
 	public JTable calendarTable;
         public DefaultTableModel modelCalendarTable;
         
+        /**** Event Components ****/
+        public ArrayList<Event> events;
+        
         public void refreshCalendar(int month, int year)
         {
 		String[] months =  {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -164,6 +167,7 @@ public class CalendarProgram{
 		}
 		
 		refreshCalendar (monthBound, yearBound); //Refresh calendar
+                events = new ArrayList<>();
 	}
 	
 
@@ -211,4 +215,24 @@ public class CalendarProgram{
 			}
 		}
 	}
+        
+        /***** New code *****/
+        public void importEventFromFile(String filename){
+            CSVParser csv;
+            PipeDelimitedParser pipe;
+            if(filename.contains(".csv")){
+                csv = new CSVParser(this);
+                csv.readData(filename);
+                csv.processData();
+            }else if(filename.contains(".psv")){
+                pipe = new PipeDelimitedParser(this);
+                pipe.readData(filename);
+                pipe.processData();
+            }
+            
+        }
+        
+        public void addEvent(String title, Date d, Color c){
+            events.add(new Event(title, d, c));
+        }
 }
