@@ -1,11 +1,11 @@
 public class Road{
 	private String name;
-	private String northB;
+	private String northB; //Road State
 	private String southB;
-	private String northA;
+	private String northA; //Road advisory
 	private String southA;
 	
-	public Road(String n, String nB, String sB, String nA, String sB){
+	public Road(String n, String nB, String sB, String nA, String sA){
 		setName(n);
 		setNorthB(nB);
 		setSouthB(sB);
