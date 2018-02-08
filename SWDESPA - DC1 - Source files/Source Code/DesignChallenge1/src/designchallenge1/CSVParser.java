@@ -26,8 +26,8 @@ public class CSVParser extends DataParser{
                     String line;
                     String[] temp;
                     while ((line = reader.readLine()) != null){
-                            //System.out.println(line);
-                            temp = line.split(",");
+                            System.out.println(line);
+                            temp = line.split(", ");
                             super.events.add(Arrays.asList(temp));
                     } 
 

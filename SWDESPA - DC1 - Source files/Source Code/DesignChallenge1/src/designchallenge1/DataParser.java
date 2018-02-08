@@ -12,7 +12,7 @@ import java.util.*;
  * @author Zach Marasigan
  */
 public abstract class DataParser {
-    protected ArrayList<List> events;
+    protected ArrayList<List> events = new ArrayList<>();
     protected String filename;
     protected CalendarProgram owner;
     

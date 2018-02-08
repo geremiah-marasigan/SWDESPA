@@ -168,6 +168,10 @@ public class CalendarProgram{
 		
 		refreshCalendar (monthBound, yearBound); //Refresh calendar
                 events = new ArrayList<>();
+                /* New Code */
+                importEventFromFile("Philippine Holidays.csv");
+                for (int i = 0; i < events.size(); i++)
+                    System.out.println(events.get(i).toString());
 	}
 	
 

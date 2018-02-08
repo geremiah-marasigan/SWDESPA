@@ -13,11 +13,11 @@ public class Subject{
 	
 	
 	public void init(){
-		roads.add(new Road("Osmena Boulevard", "Heavy", "Light", "", ""));
-		roads.add(new Road("Colon", "Light", "Heavy", "", ""));
-		roads.add(new Road("V. Rama", "Light", "Heavy", "", ""));
-		roads.add(new Road("Marcelo Fernan Bridge", "Heavy", "Light", "", ""));
-		roads.add(new Road("Mactan-Mandaue Bridge", "Light", "Light", "", ""));
+		roads.add(new Road(RoadName.Osmena.toString(), Traffic.Heavy.toString(), Traffic.Light.toString(), "", ""));
+		roads.add(new Road(RoadName.Colon.toString(), Traffic.Light.toString(), Traffic.Heavy.toString(), "", ""));
+		roads.add(new Road(RoadName.V.toString(), Traffic.Light.toString(), Traffic.Heavy.toString(), "", ""));
+		roads.add(new Road(RoadName.Marcelo.toString(), Traffic.Heavy.toString(), Traffic.Light.toString(), "", ""));
+		roads.add(new Road(RoadName.Mactan.toString(), Traffic.Heavy.toString(), Traffic.Light.toString(), "", ""));
 		
 	}
 	

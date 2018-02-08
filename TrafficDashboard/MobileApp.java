@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class MobileApp extends Observer{
 	public MobileApp(Subject subject, int id){
 		this.subject = subject;

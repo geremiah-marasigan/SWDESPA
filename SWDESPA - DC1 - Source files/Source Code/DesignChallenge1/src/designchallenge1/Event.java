@@ -20,4 +20,8 @@ public class Event {
         this.eventColor = c;
         this.eventTitle = title;
     }
+    
+    public String toString(){
+        return ("Date : " + eventDate + " Color : " + eventColor + " eventTitle : " + eventTitle);
+    }
 }

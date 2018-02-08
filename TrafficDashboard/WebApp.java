@@ -1,5 +1,3 @@
-import java.util.*;
-
 public class WebApp extends Observer{
 	private int id;
 	
@@ -14,7 +12,7 @@ public class WebApp extends Observer{
 		String tempSA = "";
 		System.out.println("Web App " + id);
 		System.out.println("Metro Cebu");
-		System.out.format("%32s%32s%32s%n","","NB","SB");
+		System.out.format("%-32s%-32s%-32s%n","","NB","SB");
 		for(Road r: subject.getState()){
 			tempNA = "";
 			tempSA = "";
