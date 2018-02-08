@@ -20,7 +20,7 @@ public class WebApp extends Observer{
 				tempNA = " (" + r.getNorthA() + "!)";
 			if(!(r.getSouthA().equals("")))
 				tempSA = " (" + r.getSouthA() + "!)";
-			System.out.format("%32s%32s%32s%n", r.getName(), r.getNorthB() + tempNA, r.getSouthB() + tempSA);
+			System.out.format("%-32s%-32s%-32s%n", r.getName(), r.getNorthB() + tempNA, r.getSouthB() + tempSA);
 		}
 	}
 
