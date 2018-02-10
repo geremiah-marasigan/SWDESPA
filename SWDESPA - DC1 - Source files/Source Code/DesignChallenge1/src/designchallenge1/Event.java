@@ -20,7 +20,15 @@ public class Event {
         this.eventColor = c;
         this.eventTitle = title;
     }
-    
+    public Date getDate(){
+     return eventDate;   
+    }
+    public Color getColor(){
+        return eventColor;
+    }
+    public String getEvent(){
+        return eventTitle;
+    }
     public String toString(){
         return ("Date : " + eventDate + " Color : " + eventColor + " eventTitle : " + eventTitle);
     }

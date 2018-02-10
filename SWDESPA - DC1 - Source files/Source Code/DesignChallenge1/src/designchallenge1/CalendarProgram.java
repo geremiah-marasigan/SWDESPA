@@ -69,7 +69,7 @@ public class CalendarProgram{
 			modelCalendarTable.setValueAt(i, row, column);
 		}
 
-		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new TableRenderer());
+		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new TableRenderer(events,yearToday,monthToday));
 	}
         
 	public CalendarProgram()
