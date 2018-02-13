@@ -19,5 +19,9 @@ public class DesignChallenge1 {
         CalendarProgram cp = new CalendarProgram();
         FBView fb = new FBView();
         SMSView sms = new SMSView();
+        FBObserver obvFb = new FBObserver(fb, cp);
+        SMSObserver obvSMS = new SMSObserver(sms, cp);
+        cp.attach(obvFb);
+        cp.attach(obvSMS);
     }
 }

@@ -15,6 +15,8 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import facebook.*;
+import sms.*;
 
 public class CalendarProgram{
 	
@@ -36,6 +38,9 @@ public class CalendarProgram{
         
         /**** Event Components ****/
         public ArrayList<Event> events;
+        
+        /**** Notification Components ****/
+        public ArrayList<NotificationObserver> observers;
         
         public void refreshCalendar(int month, int year)
         {
@@ -101,6 +106,7 @@ public class CalendarProgram{
                 }
 
 		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new TableRenderer(events));
+                this.updateAll();
 	}
         
 	public CalendarProgram()
@@ -109,6 +115,8 @@ public class CalendarProgram{
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 }
 		catch (Exception e) {}
+                
+                observers = new ArrayList<>();
                 
 		frmMain = new JFrame ("Calendar Application");
                 frmMain.setSize(660, 750);
@@ -236,10 +244,6 @@ public class CalendarProgram{
 			refreshCalendar(monthToday, yearToday);
 		}
 	}
-//        class btnAddEvent_Action implements ActionListener
-        {
-		
-	}
 	class btnNext_Action implements ActionListener
         {
 		public void actionPerformed (ActionEvent e)
@@ -287,5 +291,16 @@ public class CalendarProgram{
         
         public void addEvent(String title, Date d, Color c){
             events.add(new Event(title, d, c));
+        }
+        
+        public void attach(NotificationObserver observer){
+            this.observers.add(observer);
+        }
+        
+        public void updateAll(){
+            for(NotificationObserver n: observers){
+                n.update();
+            }
+            
         }
 }
