@@ -23,7 +23,7 @@ public class CalendarProgram{
 
         /**** Swing Components ****/
         public JLabel monthLabel, yearLabel;
-	public JButton btnPrev, btnNext;
+	public JButton btnPrev, btnNext, addEvent;
         public JComboBox cmbYear;
 	public JFrame frmMain;
 	public Container pane;
@@ -64,12 +64,43 @@ public class CalendarProgram{
 		
 		for (i = 1; i <= nod; i++)
                 {
+                    String eventMonth="";
 			int row = new Integer((i+som-2)/7);
 			int column  =  (i+som-2)%7;
-			modelCalendarTable.setValueAt(i, row, column);
-		}
+			try{
+                            switch(monthToday+1){
+                                case 1: eventMonth = "Jan"; break;
+                                case 2: eventMonth = "Feb"; break;
+                                case 3: eventMonth = "Mar"; break;
+                                case 4: eventMonth = "Apr"; break;
+                                case 5: eventMonth = "May"; break;
+                                case 6: eventMonth = "Jun"; break;
+                                case 7: eventMonth = "Jul"; break;
+                                case 8: eventMonth = "Aug"; break;
+                                case 9: eventMonth = "Sep"; break;
+                                case 10: eventMonth = "Oct"; break;
+                                case 11: eventMonth = "Nov"; break;
+                                case 12: eventMonth = "Dec"; break;
+                            }
+                            
+                            for(Event event: this.events){
+                                String s = event.toString();
+                                String[] sa = s.split(" ");
+                                if(Integer.parseInt(sa[4]) == i && eventMonth.equals(sa[3]) && yearToday == Integer.parseInt(sa[7])){
+                                    modelCalendarTable.setValueAt(i+" "+event.getEvent(), row, column);
+                                    break;
+                                }
+                                else{
+                                    modelCalendarTable.setValueAt(i, row, column);
+                                }
+                            }
+                        }
+                        catch (Exception e){
+                            
+                        }
+                }
 
-		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new TableRenderer(events,yearToday,monthToday));
+		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new TableRenderer(events));
 	}
         
 	public CalendarProgram()
@@ -90,11 +121,12 @@ public class CalendarProgram{
 		cmbYear = new JComboBox();
 		btnPrev = new JButton ("<<");
 		btnNext = new JButton (">>");
+                addEvent = new JButton ("Add Event");
 		modelCalendarTable = new DefaultTableModel()
                 {
                     public boolean isCellEditable(int rowIndex, int mColIndex)
                     {
-                        return true;
+                        return false;
                     }
                 };
                 
@@ -105,6 +137,8 @@ public class CalendarProgram{
                     {  
                         int col = calendarTable.getSelectedColumn();  
                         int row = calendarTable.getSelectedRow();  
+                        System.out.println("Hello");
+                        addEvent.setEnabled(true);
                     }
                 });
                 
@@ -165,13 +199,12 @@ public class CalendarProgram{
                 {
 			cmbYear.addItem(String.valueOf(i));
 		}
-		
-		refreshCalendar (monthBound, yearBound); //Refresh calendar
-                events = new ArrayList<>();
+		events = new ArrayList<>();
                 /* New Code */
                 importEventFromFile("Philippine Holidays.csv");
                 for (int i = 0; i < events.size(); i++)
                     System.out.println(events.get(i).toString());
+		refreshCalendar (monthBound, yearBound); //Refresh calendar
 	}
 	
 

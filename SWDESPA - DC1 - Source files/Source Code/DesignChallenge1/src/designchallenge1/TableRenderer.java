@@ -17,25 +17,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class TableRenderer extends DefaultTableCellRenderer
 {
     private ArrayList<Event> events;
-    int year;
-    String month;
-    public TableRenderer(ArrayList<Event> events, int year, int month){
+    public TableRenderer(ArrayList<Event> events){
         this.events = events;
-        this.year = year;
-        switch(month+1){
-            case 1: this.month = "Jan"; break;
-            case 2: this.month = "Feb"; break;
-            case 3: this.month = "Mar"; break;
-            case 4: this.month = "Apr"; break;
-            case 5: this.month = "May"; break;
-            case 6: this.month = "Jun"; break;
-            case 7: this.month = "Jul"; break;
-            case 8: this.month = "Aug"; break;
-            case 9: this.month = "Sep"; break;
-            case 10: this.month = "Oct"; break;
-            case 11: this.month = "Nov"; break;
-            case 12: this.month = "Dec"; break;
-        }
     }
     public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column)
     {
@@ -45,18 +28,15 @@ public class TableRenderer extends DefaultTableCellRenderer
             else
                     setBackground(Color.WHITE);
             try{
-                for(Event event: this.events){
-                    String s = event.toString();
-                    String[] sa = s.split(" ");
-                    if(Integer.parseInt(sa[4]) == Integer.parseInt(value.toString()) && month.equals(sa[3]) && year == Integer.parseInt(sa[7])){
-                        System.out.println(sa[7]);
+                for(Event event: this.events)
+                    if(value.toString().contains(event.getEvent()))
                         setBackground(event.getColor());
-                    }
-                }
             }
             catch (Exception e){
 
             }
+            if (selected)
+                setBackground(Color.GRAY);
             setBorder(null);
             setForeground(Color.black);
             return this;  
