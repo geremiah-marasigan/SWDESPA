@@ -22,8 +22,8 @@ public class CalendarProgram{
 	public int yearBound, monthBound, dayBound, yearToday, monthToday;
 
         /**** Swing Components ****/
-        public JLabel monthLabel, yearLabel;
-	public JButton btnPrev, btnNext, btnAddEvent;
+        public JLabel monthLabel, yearLabel, eventLabel;
+	public JButton btnPrev, btnNext;
         public JComboBox cmbYear;
 	public JFrame frmMain;
 	public Container pane;
@@ -121,7 +121,7 @@ public class CalendarProgram{
 		cmbYear = new JComboBox();
 		btnPrev = new JButton ("<<");
 		btnNext = new JButton (">>");
-                btnAddEvent = new JButton ("Add Event");
+                eventLabel = new JLabel("Add events by clicking the day.");
 		modelCalendarTable = new DefaultTableModel()
                 {
                     public boolean isCellEditable(int rowIndex, int mColIndex)
@@ -141,7 +141,7 @@ public class CalendarProgram{
                        NewEventWindow frmEventAdder = new NewEventWindow(monthToday,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]));
                        frmEventAdder.setResizable(false);
                        frmEventAdder.setVisible(true);
-                       frmEventAdder.setSize(400, 400);
+                       frmEventAdder.setSize(400, 100);
                     }
                 });
                 
@@ -164,8 +164,8 @@ public class CalendarProgram{
 		calendarPanel.add(scrollCalendarTable);
                 /***************/
                 
-                calendarPanel.add(btnAddEvent);
-                btnAddEvent.setBounds(20, 610, 160, 40);
+                calendarPanel.add(eventLabel);
+                eventLabel.setBounds(20, 610, 160, 40);
                 
                 
                 

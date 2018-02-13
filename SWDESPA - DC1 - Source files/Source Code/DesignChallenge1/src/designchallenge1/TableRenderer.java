@@ -23,15 +23,19 @@ public class TableRenderer extends DefaultTableCellRenderer
     public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column)
     {
              
-            Component c = super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+            super.getTableCellRendererComponent(table, value, selected, focused, row, column);
             if (column == 0 || column == 6)
                     setBackground(new Color(220,220,255));
             else
                     setBackground(Color.WHITE);
             try{
                 for(Event event: this.events)
-                    if(value.toString().contains(event.getEvent()))
-                        c.setForeground(event.getColor());
+                    if(value.toString().contains(event.getEvent())){
+                        setForeground(event.getColor());
+                        break;
+                    }
+                    else
+                        setForeground(Color.black);
             }
             catch (Exception e){
 
@@ -39,7 +43,7 @@ public class TableRenderer extends DefaultTableCellRenderer
             if (selected)
                 setBackground(Color.GRAY);
             setBorder(null);
-            setForeground(Color.black);
+            
             return this;  
     }
 }

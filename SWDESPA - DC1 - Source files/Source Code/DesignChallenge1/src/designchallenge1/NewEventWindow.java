@@ -14,7 +14,6 @@ import java.util.*;
  * @author Zach Marasigan
  */
 public class NewEventWindow extends JFrame{
-    private JMenuBar menu;
     private CalendarProgram owner;
     private JButton btnCancel, btnAddEvent;
     private JLabel lblTitle, lblColor;
@@ -23,9 +22,10 @@ public class NewEventWindow extends JFrame{
     private String title;
     private Color color;
     
+    
     public NewEventWindow(int month, int year, int day){
         //this.owner = cp;
-        setLayout(new GridLayout(2, 4, 10, 10));
+        setLayout(new GridLayout(2, 6, 10, 10));
         
         this.lblTitle = new JLabel("Title: ");
         this.lblColor = new JLabel("Color: ");
@@ -43,11 +43,15 @@ public class NewEventWindow extends JFrame{
             }
         });
         
+        this.btnAddEvent = new JButton();
+        this.btnAddEvent.setText("Add");
+        
         add(this.lblTitle);
         add(this.txtTitle);
         add(this.lblColor);
         add(this.cmbColor);
         add(this.btnCancel);
+        add(this.btnAddEvent);
         
         
     }
