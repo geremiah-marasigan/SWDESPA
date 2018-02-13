@@ -23,7 +23,7 @@ public class CalendarProgram{
 
         /**** Swing Components ****/
         public JLabel monthLabel, yearLabel;
-	public JButton btnPrev, btnNext, addEvent;
+	public JButton btnPrev, btnNext, btnAddEvent;
         public JComboBox cmbYear;
 	public JFrame frmMain;
 	public Container pane;
@@ -121,7 +121,7 @@ public class CalendarProgram{
 		cmbYear = new JComboBox();
 		btnPrev = new JButton ("<<");
 		btnNext = new JButton (">>");
-                addEvent = new JButton ("Add Event");
+                btnAddEvent = new JButton ("Add Event");
 		modelCalendarTable = new DefaultTableModel()
                 {
                     public boolean isCellEditable(int rowIndex, int mColIndex)
@@ -138,7 +138,7 @@ public class CalendarProgram{
                         int col = calendarTable.getSelectedColumn();  
                         int row = calendarTable.getSelectedRow();  
                         System.out.println("Hello");
-                        addEvent.setEnabled(true);
+                        btnAddEvent.setEnabled(true);
                     }
                 });
                 
@@ -158,10 +158,18 @@ public class CalendarProgram{
 		calendarPanel.add(btnPrev);
 		calendarPanel.add(btnNext);
 		calendarPanel.add(scrollCalendarTable);
-		
+                /***************/
+                
+                calendarPanel.add(btnAddEvent);
+                btnAddEvent.setBounds(20, 610, 160, 40);
+                
+                
+                
+                
+		/***************/
                 calendarPanel.setBounds(0, 0, 640, 670);
                 monthLabel.setBounds(320-monthLabel.getPreferredSize().width/2, 50, 200, 50);
-		yearLabel.setBounds(20, 610, 160, 40);
+		yearLabel.setBounds(380, 610, 160, 40);
 		cmbYear.setBounds(460, 610, 160, 40);
 		btnPrev.setBounds(20, 50, 100, 50);
 		btnNext.setBounds(520, 50, 100, 50);
