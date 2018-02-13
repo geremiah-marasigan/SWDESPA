@@ -19,10 +19,11 @@ public class TableRenderer extends DefaultTableCellRenderer
     private ArrayList<Event> events;
     public TableRenderer(ArrayList<Event> events){
         this.events = events;
-    }
+    }   
     public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column)
     {
-            super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+             
+            Component c = super.getTableCellRendererComponent(table, value, selected, focused, row, column);
             if (column == 0 || column == 6)
                     setBackground(new Color(220,220,255));
             else
@@ -30,7 +31,7 @@ public class TableRenderer extends DefaultTableCellRenderer
             try{
                 for(Event event: this.events)
                     if(value.toString().contains(event.getEvent()))
-                        setBackground(event.getColor());
+                        c.setForeground(event.getColor());
             }
             catch (Exception e){
 

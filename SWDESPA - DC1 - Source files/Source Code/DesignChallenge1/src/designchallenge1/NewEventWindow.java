@@ -23,7 +23,7 @@ public class NewEventWindow extends JFrame{
     private String title;
     private Color color;
     
-    public NewEventWindow(/*CalendarProgram cp*/){
+    public NewEventWindow(int month, int year, int day){
         //this.owner = cp;
         setLayout(new GridLayout(2, 4, 10, 10));
         

@@ -138,7 +138,10 @@ public class CalendarProgram{
                         int col = calendarTable.getSelectedColumn();  
                         int row = calendarTable.getSelectedRow();  
                         System.out.println("Hello");
-                        btnAddEvent.setEnabled(true);
+                       NewEventWindow frmEventAdder = new NewEventWindow(monthToday,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]));
+                       frmEventAdder.setResizable(false);
+                       frmEventAdder.setVisible(true);
+                       frmEventAdder.setSize(400, 400);
                     }
                 });
                 
@@ -149,6 +152,7 @@ public class CalendarProgram{
 		
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
+//                btnAddEvent.addActionListener(new btnAddEvent_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
 		
 		pane.add(calendarPanel);
@@ -231,6 +235,10 @@ public class CalendarProgram{
 			}
 			refreshCalendar(monthToday, yearToday);
 		}
+	}
+//        class btnAddEvent_Action implements ActionListener
+        {
+		
 	}
 	class btnNext_Action implements ActionListener
         {
