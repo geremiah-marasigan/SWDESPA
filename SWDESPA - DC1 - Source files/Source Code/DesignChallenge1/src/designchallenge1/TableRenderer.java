@@ -8,13 +8,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.JTextPane;
+import javax.swing.table.TableCellRenderer;
 
 /**
  *
  * @author Arturo III
  */
-public class TableRenderer extends DefaultTableCellRenderer
+public class TableRenderer extends JTextPane implements TableCellRenderer
 {
     private ArrayList<Event> events;
     public TableRenderer(ArrayList<Event> events){
@@ -22,20 +23,23 @@ public class TableRenderer extends DefaultTableCellRenderer
     }   
     public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column)
     {
-             
-            super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+            
+            //super.getTableCellRendererComponent(table, value, selected, focused, row, column);
+            if ( value != null)
+                this.setText(String.valueOf(value));
+            else
+                this.setText("");
             if (column == 0 || column == 6)
                     setBackground(new Color(220,220,255));
             else
                     setBackground(Color.WHITE);
+            
             try{
                 for(Event event: this.events)
                     if(value.toString().contains(event.getEvent())){
                         setForeground(event.getColor());
                         break;
                     }
-                    else
-                        setForeground(Color.black);
             }
             catch (Exception e){
 

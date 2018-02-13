@@ -46,8 +46,10 @@ public class CSVParser extends DataParser{
         for(int event = 0; event< events.size(); event++){ /*** CSV format is Date, Title, Color ***/
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             Date date = df.parse((String)events.get(event).get(0));
-            
-            super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)));
+            if (events.get(event).size() == 3)
+                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)));
+            else
+                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),(int) events.get(event).get(3));
         }
         } catch (Exception e){
             System.out.println("Error in CSV processing");

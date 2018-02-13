@@ -44,7 +44,7 @@ public class CalendarProgram{
         
         public void refreshCalendar(int month, int year)
         {
-		String[] months =  {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+                String[] months =  {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 		int nod, som, i, j;
 			
 		btnPrev.setEnabled(true);
@@ -91,9 +91,13 @@ public class CalendarProgram{
                             for(Event event: this.events){
                                 String s = event.toString();
                                 String[] sa = s.split(" ");
-                                if(Integer.parseInt(sa[4]) == i && eventMonth.equals(sa[3]) && yearToday == Integer.parseInt(sa[7])){
-                                    modelCalendarTable.setValueAt(i+" "+event.getEvent(), row, column);
-                                    break;
+                                
+                                if(Integer.parseInt(sa[4]) == i && eventMonth.equals(sa[3]) && (yearToday == Integer.parseInt(sa[7]) || event.getHoliday())){   
+                                    
+                                    if(modelCalendarTable.getValueAt(row, column)==null)
+                                        modelCalendarTable.setValueAt(modelCalendarTable.getValueAt(row, column)+" "+event.getEvent(), row, column); 
+                                    else
+                                        modelCalendarTable.setValueAt(i+" "+event.getEvent(), row, column);
                                 }
                                 else{
                                     modelCalendarTable.setValueAt(i, row, column);
@@ -146,10 +150,11 @@ public class CalendarProgram{
                         int col = calendarTable.getSelectedColumn();  
                         int row = calendarTable.getSelectedRow();  
                         System.out.println("Hello");
-                       NewEventWindow frmEventAdder = new NewEventWindow(monthToday,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]));
-                       frmEventAdder.setResizable(false);
-                       frmEventAdder.setVisible(true);
-                       frmEventAdder.setSize(400, 100);
+                        NewEventWindow frmEventAdder = new NewEventWindow(monthToday+1,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]),CalendarProgram.this);
+                        frmEventAdder.setResizable(false);
+                        frmEventAdder.setVisible(true);
+                        frmEventAdder.setSize(500, 100);
+                        frmEventAdder.setLocation(frmMain.getX()+frmMain.getWidth(),frmMain.getY());
                     }
                 });
                 
@@ -174,9 +179,6 @@ public class CalendarProgram{
                 
                 calendarPanel.add(eventLabel);
                 eventLabel.setBounds(20, 610, 160, 40);
-                
-                
-                
                 
 		/***************/
                 calendarPanel.setBounds(0, 0, 640, 670);
@@ -286,11 +288,14 @@ public class CalendarProgram{
                 pipe.readData(filename);
                 pipe.processData();
             }
-            
         }
         
         public void addEvent(String title, Date d, Color c){
             events.add(new Event(title, d, c));
+        }
+        
+        public void addEvent(String title, Date d, Color c,int h){
+            events.add(new Event(title, d, c, h));
         }
         
         public void attach(NotificationObserver observer){

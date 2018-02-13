@@ -15,10 +15,21 @@ public class Event {
     Color eventColor;
     String eventTitle;
     Date eventDate;
+    boolean eventHoliday;
     public Event(String title, Date d, Color c){
         this.eventDate = d;
         this.eventColor = c;
         this.eventTitle = title;
+        this.eventHoliday = true;
+    }
+    public Event(String title, Date d, Color c, int h){
+        this.eventDate = d;
+        this.eventColor = c;
+        this.eventTitle = title;
+        if(h == 1)
+            this.eventHoliday = true;
+        else
+            this.eventHoliday = false;
     }
     public Date getDate(){
      return eventDate;   
@@ -28,6 +39,9 @@ public class Event {
     }
     public String getEvent(){
         return eventTitle;
+    }
+    public boolean getHoliday(){
+        return eventHoliday;
     }
     public String toString(){
         return ("Date : " + eventDate + " Color : " + eventColor + " eventTitle : " + eventTitle);

@@ -32,7 +32,6 @@ public class FBView extends JFrame{
 		eventNo = 0;
 		
 		setTitle("Facebook App #" + appID);
-		
 		setDefaultCloseOperation(EXIT_ON_CLOSE); //set the behavior of the window when the X icon is clicked
 		
 		initScreen(); //add components into your window
