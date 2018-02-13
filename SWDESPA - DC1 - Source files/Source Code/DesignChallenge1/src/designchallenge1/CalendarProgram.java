@@ -36,6 +36,8 @@ public class CalendarProgram{
         
         /**** Event Components ****/
         public ArrayList<Event> events;
+        public JButton btnNewEvent;
+        //public JFrame frmEventAdder;
         
         public void refreshCalendar(int month, int year)
         {
@@ -124,10 +126,24 @@ public class CalendarProgram{
 		calendarPanel.add(btnPrev);
 		calendarPanel.add(btnNext);
 		calendarPanel.add(scrollCalendarTable);
+                
+                /*Adding Event Adder*/
+                btnNewEvent = new JButton("Add Event");
+                btnNewEvent.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                       NewEventWindow frmEventAdder = new NewEventWindow(/*this*/);
+                       frmEventAdder.setResizable(false);
+                       frmEventAdder.setVisible(true);
+                       frmEventAdder.setSize(400, 400);
+                    }
+                });
+                calendarPanel.add(btnNewEvent);
+                btnNewEvent.setBounds(20, 610, 100, 50);
+                /******************************/
 		
                 calendarPanel.setBounds(0, 0, 640, 670);
                 monthLabel.setBounds(320-monthLabel.getPreferredSize().width/2, 50, 200, 50);
-		yearLabel.setBounds(20, 610, 160, 40);
+		yearLabel.setBounds(350, 610, 160, 40);
 		cmbYear.setBounds(460, 610, 160, 40);
 		btnPrev.setBounds(20, 50, 100, 50);
 		btnNext.setBounds(520, 50, 100, 50);
@@ -167,8 +183,9 @@ public class CalendarProgram{
 		}
 		
 		refreshCalendar (monthBound, yearBound); //Refresh calendar
-                events = new ArrayList<>();
                 /* New Code */
+                
+                events = new ArrayList<>();
                 importEventFromFile("Philippine Holidays.csv");
                 for (int i = 0; i < events.size(); i++)
                     System.out.println(events.get(i).toString());
@@ -220,7 +237,7 @@ public class CalendarProgram{
 		}
 	}
         
-        /***** New code *****/
+        /***** New code *****/   
         public void importEventFromFile(String filename){
             CSVParser csv;
             PipeDelimitedParser pipe;
@@ -239,4 +256,7 @@ public class CalendarProgram{
         public void addEvent(String title, Date d, Color c){
             events.add(new Event(title, d, c));
         }
+        
+        
 }
+
