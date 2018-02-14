@@ -47,7 +47,7 @@ public class CSVParser extends DataParser{
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             Date date = df.parse((String)events.get(event).get(0));
             if (events.get(event).size() == 3)
-                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)));
+                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),1);
             else
                 super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),(int) events.get(event).get(3));
         }

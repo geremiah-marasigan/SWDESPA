@@ -303,10 +303,6 @@ public class CalendarProgram{
             }
         }
         
-        public void addEvent(String title, Date d, Color c){
-            events.add(new Event(title, d, c));
-        }
-        
         public void addEvent(String title, Date d, Color c,int h){
             events.add(new Event(title, d, c, h));
         }

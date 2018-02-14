@@ -47,7 +47,10 @@ public class PipeDelimitedParser extends DataParser{
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             Date date = df.parse((String)events.get(event).get(1));
             
-            super.owner.addEvent((String)events.get(event).get(0), date, cd.decode((String)events.get(event).get(2)));
+            if (events.get(event).size() == 3)
+                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),0);
+            else
+                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),(int) events.get(event).get(3));
         }
         } catch (Exception e){
             System.out.println("Error in PipeDelimited processing");

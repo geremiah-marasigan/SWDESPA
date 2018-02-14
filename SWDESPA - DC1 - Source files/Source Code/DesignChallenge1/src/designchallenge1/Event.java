@@ -16,12 +16,6 @@ public class Event {
     String eventTitle;
     Date eventDate;
     boolean eventHoliday;
-    public Event(String title, Date d, Color c){
-        this.eventDate = d;
-        this.eventColor = c;
-        this.eventTitle = title;
-        this.eventHoliday = true;
-    }
     public Event(String title, Date d, Color c, int h){
         this.eventDate = d;
         this.eventColor = c;
