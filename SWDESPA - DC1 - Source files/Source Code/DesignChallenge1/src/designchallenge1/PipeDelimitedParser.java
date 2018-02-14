@@ -19,15 +19,14 @@ public class PipeDelimitedParser extends DataParser{
     }
     
     public void readData(String filename) {
-        System.out.println("Reading data from csv file");
+        System.out.println("Reading data from psv file");
 
         try{
                 BufferedReader reader = new BufferedReader(new FileReader(filename));
                 String line;
                 String[] temp;
                 while ((line = reader.readLine()) != null){
-                        //System.out.println(line);
-                        temp = line.split("|");
+                        temp = line.split("\\| ");
                         super.events.add(Arrays.asList(temp));
                 } 
 
@@ -41,16 +40,17 @@ public class PipeDelimitedParser extends DataParser{
     
     public void processData(){
         ColorDecoder cd = new ColorDecoder();
-        String stringColor;
         try{
         for(int event = 0; event< events.size(); event++){ /*** PipeDelimited format is Title, Date, Color ***/
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             Date date = df.parse((String)events.get(event).get(1));
             
+            System.out.println((String)events.get(event).get(2));
+            
             if (events.get(event).size() == 3)
-                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),0);
+                super.owner.addEvent((String)events.get(event).get(0), date, cd.decode((String)events.get(event).get(2)),0);
             else
-                super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),(int) events.get(event).get(3));
+                super.owner.addEvent((String)events.get(event).get(0), date, cd.decode((String)events.get(event).get(2)),(int) events.get(event).get(3));
         }
         } catch (Exception e){
             System.out.println("Error in PipeDelimited processing");

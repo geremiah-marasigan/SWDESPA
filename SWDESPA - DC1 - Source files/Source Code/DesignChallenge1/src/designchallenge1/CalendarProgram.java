@@ -232,7 +232,7 @@ public class CalendarProgram{
 		events = new ArrayList<>();
                 /* New Code */
                 importEventFromFile("Philippine Holidays.csv"); //Import from csv
-                
+                importEventFromFile("DLSU Unicalendar.psv"); //Import from psv
                 
                 for (int i = 0; i < events.size(); i++)
                     System.out.println(events.get(i).toString());

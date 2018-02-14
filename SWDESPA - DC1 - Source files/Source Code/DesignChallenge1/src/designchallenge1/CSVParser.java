@@ -41,11 +41,11 @@ public class CSVParser extends DataParser{
     
     public void processData(){
         ColorDecoder cd = new ColorDecoder();
-        String stringColor;
         try{
         for(int event = 0; event< events.size(); event++){ /*** CSV format is Date, Title, Color ***/
             DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             Date date = df.parse((String)events.get(event).get(0));
+            
             if (events.get(event).size() == 3)
                 super.owner.addEvent((String)events.get(event).get(1), date, cd.decode((String)events.get(event).get(2)),1);
             else
