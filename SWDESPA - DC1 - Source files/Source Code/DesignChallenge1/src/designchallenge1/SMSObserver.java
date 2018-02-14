@@ -24,6 +24,7 @@ public class SMSObserver extends NotificationObserver{
     }
     
     public void update(){
+        today = Calendar.getInstance();
         for(Event e: owner.events){
             int day, month;
             Calendar calendar = Calendar.getInstance();

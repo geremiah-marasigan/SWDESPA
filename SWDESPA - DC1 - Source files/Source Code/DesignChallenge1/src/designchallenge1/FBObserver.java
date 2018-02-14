@@ -23,6 +23,8 @@ public class FBObserver extends NotificationObserver{
     }
     
     public void update(){
+        today = Calendar.getInstance();
+        System.out.println("Today is " + today.get(Calendar.DAY_OF_YEAR));
         for(Event e: owner.events){
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(e.getDate());

@@ -41,6 +41,8 @@ public class CalendarProgram{
         
         /**** Notification Components ****/
         public ArrayList<NotificationObserver> observers;
+        public java.util.Timer timer;
+        public TimerTask timerTask;
         
         public void refreshCalendar(int month, int year)
         {
@@ -222,9 +224,21 @@ public class CalendarProgram{
 		}
 		events = new ArrayList<>();
                 /* New Code */
-                importEventFromFile("Philippine Holidays.csv");
+                importEventFromFile("Philippine Holidays.csv"); //Import from csv
+                
+                
                 for (int i = 0; i < events.size(); i++)
                     System.out.println(events.get(i).toString());
+                
+                
+                timerTask = new TimerTask(){
+                    public void run(){
+                        updateAll();
+                    }
+                };
+                timer = new java.util.Timer(true);
+                timer.scheduleAtFixedRate(timerTask, 1000, 1000); //Update in real-time
+                
 		refreshCalendar (monthBound, yearBound); //Refresh calendar
 	}
 	
