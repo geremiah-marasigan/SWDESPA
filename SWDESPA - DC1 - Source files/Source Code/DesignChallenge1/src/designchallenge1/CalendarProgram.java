@@ -44,6 +44,9 @@ public class CalendarProgram{
         public java.util.Timer timer;
         public TimerTask timerTask;
         
+        /**** Export Components ****/
+        public JButton btnExport;
+        
         public void refreshCalendar(int month, int year)
         {
                 String[] months =  {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -132,7 +135,7 @@ public class CalendarProgram{
 		cmbYear = new JComboBox();
 		btnPrev = new JButton ("<<");
 		btnNext = new JButton (">>");
-                eventLabel = new JLabel("Add events by clicking the day.");
+                btnExport = new JButton("Export to .csv");
 		modelCalendarTable = new DefaultTableModel()
                 {
                     public boolean isCellEditable(int rowIndex, int mColIndex)
@@ -166,7 +169,6 @@ public class CalendarProgram{
 		
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
-//                btnAddEvent.addActionListener(new btnAddEvent_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
 		
 		pane.add(calendarPanel);
@@ -177,9 +179,14 @@ public class CalendarProgram{
 		calendarPanel.add(btnNext);
 		calendarPanel.add(scrollCalendarTable);
                 /***************/
+                btnExport.addActionListener(new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        exportToCsv();
+                    }
+                });
                 
-                calendarPanel.add(eventLabel);
-                eventLabel.setBounds(20, 610, 160, 40);
+                calendarPanel.add(btnExport);
+                btnExport.setBounds(20, 610, 100, 50);
                 
 		/***************/
                 calendarPanel.setBounds(0, 0, 640, 670);
@@ -302,6 +309,13 @@ public class CalendarProgram{
                 pipe.processData();
             }
         }
+        
+        public void exportToCsv(){
+            CSVParser csv;
+            csv = new CSVParser(this);
+            csv.writeData();
+        }
+        
         
         public void addEvent(String title, Date d, Color c,int h){
             events.add(new Event(title, d, c, h));

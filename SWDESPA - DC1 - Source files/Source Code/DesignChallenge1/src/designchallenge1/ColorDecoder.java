@@ -23,4 +23,11 @@ public class ColorDecoder {
     public Color decode(String s){
         return colors.get(s);
     }
+    
+    public String getStringGivenColor(Color c){
+        for(Map.Entry<String, Color> entry: colors.entrySet())
+            if(entry.getValue().equals(c))
+                return entry.getKey();
+        return "";
+    }
 }
