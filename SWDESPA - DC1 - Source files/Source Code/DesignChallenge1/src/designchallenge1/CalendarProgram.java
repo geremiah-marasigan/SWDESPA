@@ -70,9 +70,10 @@ public class CalendarProgram{
 		for (i = 1; i <= nod; i++)
                 {
                     String eventMonth="";
-			int row = new Integer((i+som-2)/7);
+			int row = (i+som-2)/7;
 			int column  =  (i+som-2)%7;
-			try{
+                        modelCalendarTable.setValueAt(i, row, column);
+                        try{
                             switch(monthToday+1){
                                 case 1: eventMonth = "Jan"; break;
                                 case 2: eventMonth = "Feb"; break;
@@ -93,15 +94,11 @@ public class CalendarProgram{
                                 String[] sa = s.split(" ");
                                 
                                 if(Integer.parseInt(sa[4]) == i && eventMonth.equals(sa[3]) && (yearToday == Integer.parseInt(sa[7]) || event.getHoliday())){   
-                                    
-                                    if(modelCalendarTable.getValueAt(row, column)==null)
-                                        modelCalendarTable.setValueAt(modelCalendarTable.getValueAt(row, column)+" "+event.getEvent(), row, column); 
-                                    else
-                                        modelCalendarTable.setValueAt(i+" "+event.getEvent(), row, column);
+                                    String value = modelCalendarTable.getValueAt(row,column)+" "+event.getEvent();
+                                    System.out.println(value);
+                                    modelCalendarTable.setValueAt(value, row, column);
                                 }
-                                else{
-                                    modelCalendarTable.setValueAt(i, row, column);
-                                }
+                                
                             }
                         }
                         catch (Exception e){
@@ -155,6 +152,8 @@ public class CalendarProgram{
                         frmEventAdder.setVisible(true);
                         frmEventAdder.setSize(500, 100);
                         frmEventAdder.setLocation(frmMain.getX()+frmMain.getWidth(),frmMain.getY());
+                        for (int i = 0; i < events.size(); i++)
+                            System.out.println(events.get(i).toString());
                     }
                 });
                 
