@@ -155,7 +155,7 @@ public class CalendarProgram{
                         NewEventWindow frmEventAdder = new NewEventWindow(monthToday+1,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]),CalendarProgram.this);
                         frmEventAdder.setResizable(false);
                         frmEventAdder.setVisible(true);
-                        frmEventAdder.setSize(500, 100);
+                        frmEventAdder.setSize(450, 100);
                         frmEventAdder.setLocation(frmMain.getX()+frmMain.getWidth(),frmMain.getY());
                         for (int i = 0; i < events.size(); i++)
                             System.out.println(events.get(i).toString());
