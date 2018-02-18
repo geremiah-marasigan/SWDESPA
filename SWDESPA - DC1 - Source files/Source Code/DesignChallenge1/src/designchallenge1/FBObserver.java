@@ -13,8 +13,7 @@ import java.util.*;
  */
 public class FBObserver extends NotificationObserver{
     private FBView fb;
-    private ArrayList<Event> addedEvents;
-    private Calendar today;
+    
     public FBObserver(FBView f, CalendarProgram cp){
         fb = f;
         owner = cp;

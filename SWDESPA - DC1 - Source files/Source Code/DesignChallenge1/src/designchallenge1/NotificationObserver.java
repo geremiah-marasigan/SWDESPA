@@ -5,11 +5,14 @@
  */
 package designchallenge1;
 
+import java.util.*;
 /**
  *
  * @author Zach Marasigan
  */
 public abstract class NotificationObserver {
     protected CalendarProgram owner;
+    protected ArrayList<Event> addedEvents;
+    protected Calendar today;
     public abstract void update();
 }

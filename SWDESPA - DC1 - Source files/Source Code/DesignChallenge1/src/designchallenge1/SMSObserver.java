@@ -14,8 +14,6 @@ import java.util.*;
  */
 public class SMSObserver extends NotificationObserver{
     private SMSView smsV;
-    private ArrayList<Event> addedEvents;
-    private Calendar today;
     public SMSObserver(SMSView s, CalendarProgram cp){
         smsV = s;
         owner = cp;
