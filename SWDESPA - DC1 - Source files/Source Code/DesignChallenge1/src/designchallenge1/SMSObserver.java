@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  *
- * @author dlsza
+ * @author Zach Marasigan
  */
 public class SMSObserver extends NotificationObserver{
     private SMSView smsV;

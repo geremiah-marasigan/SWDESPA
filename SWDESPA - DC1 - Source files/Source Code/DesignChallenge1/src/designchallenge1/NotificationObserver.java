@@ -7,7 +7,7 @@ package designchallenge1;
 
 /**
  *
- * @author dlsza
+ * @author Zach Marasigan
  */
 public abstract class NotificationObserver {
     protected CalendarProgram owner;
