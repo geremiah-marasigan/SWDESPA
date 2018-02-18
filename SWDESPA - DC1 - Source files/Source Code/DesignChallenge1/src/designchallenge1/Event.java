@@ -12,9 +12,9 @@ import java.util.Date;
  * @author Zach Marasigan
  */
 public class Event {
-    Color eventColor;
-    String eventTitle;
-    Date eventDate;
+    private Color eventColor;
+    private String eventTitle;
+    private Date eventDate;
     boolean eventHoliday;
     public Event(String title, Date d, Color c, int h){
         this.eventDate = d;
