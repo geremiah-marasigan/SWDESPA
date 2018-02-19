@@ -186,7 +186,7 @@ public class CalendarProgram{
                 });
                 
                 calendarPanel.add(btnExport);
-                btnExport.setBounds(20, 610, 100, 50);
+                btnExport.setBounds(19, 606, 150, 50);
                 
 		/***************/
                 calendarPanel.setBounds(0, 0, 640, 670);
