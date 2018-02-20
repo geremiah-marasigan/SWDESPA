@@ -121,6 +121,13 @@ public class CalendarProgram{
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 }
 		catch (Exception e) {}
+                timerTask = new TimerTask(){
+                    public void run(){
+                        updateAll();
+                    }
+                };
+                timer = new java.util.Timer(true);
+                timer.scheduleAtFixedRate(timerTask, 1000, 1000); //Update in real-time
                 
                 observers = new ArrayList<>();
                 
@@ -233,18 +240,10 @@ public class CalendarProgram{
                 /* New Code */
                 importEventFromFile("Philippine Holidays.csv"); //Import from csv
                 importEventFromFile("DLSU Unicalendar.psv"); //Import from psv
+                importEventFromFile("output.csv");
                 
                 for (int i = 0; i < events.size(); i++)
                     System.out.println(events.get(i).toString());
-                
-                
-                timerTask = new TimerTask(){
-                    public void run(){
-                        updateAll();
-                    }
-                };
-                timer = new java.util.Timer(true);
-                timer.scheduleAtFixedRate(timerTask, 1000, 1000); //Update in real-time
                 
 		refreshCalendar (monthBound, yearBound); //Refresh calendar
 	}

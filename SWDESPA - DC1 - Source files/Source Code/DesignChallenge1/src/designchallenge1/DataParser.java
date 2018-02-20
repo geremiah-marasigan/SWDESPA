@@ -29,14 +29,14 @@ public abstract class DataParser {
             sb.append("/");
             sb.append(calendar.get(Calendar.DAY_OF_MONTH));
             sb.append("/");
-            sb.append(Calendar.YEAR);
-            sb.append(",");
+            sb.append(calendar.get(Calendar.YEAR));
+            sb.append(", ");
             
             sb.append(e.getEvent());
-            sb.append(",");
+            sb.append(", ");
             
             sb.append(cd.getStringGivenColor(e.getColor()));
-            sb.append(",");
+            sb.append(", ");
             
             if(e.getHoliday())
                 sb.append("1");
