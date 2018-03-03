@@ -25,12 +25,12 @@ public class CalendarProgram{
 
         /**** Swing Components ****/
         public JLabel monthLabel, yearLabel, eventLabel;
-	public JButton btnPrev, btnNext;
+	public JButton btnPrev, btnNext, btnAddtoDo;
         public JComboBox cmbYear;
 	public JFrame frmMain;
 	public Container pane;
 	public JScrollPane scrollCalendarTable;
-	public JPanel calendarPanel;
+	public JPanel calendarPanel,ToDoPanel;
         
         /**** Calendar Table Components ***/
 	public JTable calendarTable;
@@ -60,7 +60,7 @@ public class CalendarProgram{
                     btnNext.setEnabled(false);
                 
 		monthLabel.setText(months[month]);
-		monthLabel.setBounds(320-monthLabel.getPreferredSize().width/2, 50, 360, 50);
+		monthLabel.setBounds(320-monthLabel.getPreferredSize().width/2, 50, 300, 50);
                 
 		cmbYear.setSelectedItem(""+year);
 		
@@ -132,11 +132,13 @@ public class CalendarProgram{
                 observers = new ArrayList<>();
                 
 		frmMain = new JFrame ("Calendar Application");
-                frmMain.setSize(660, 750);
+                frmMain.setSize(1060, 750);
 		pane = frmMain.getContentPane();
 		pane.setLayout(null);
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+                
+                
+                
 		monthLabel = new JLabel ("January");
 		yearLabel = new JLabel ("Change year:");
 		cmbYear = new JComboBox();
@@ -171,14 +173,17 @@ public class CalendarProgram{
                 
 		scrollCalendarTable = new JScrollPane(calendarTable);
 		calendarPanel = new JPanel(null);
-
-		calendarPanel.setBorder(BorderFactory.createTitledBorder("Calendar"));
+                ToDoPanel = new JPanel(null);
 		
+                calendarPanel.setBorder(BorderFactory.createTitledBorder(""));
+		ToDoPanel.setBorder(BorderFactory.createTitledBorder(""));
+                
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
 		
 		pane.add(calendarPanel);
+                pane.add(ToDoPanel);
 		calendarPanel.add(monthLabel);
 		calendarPanel.add(yearLabel);
 		calendarPanel.add(cmbYear);
@@ -197,12 +202,13 @@ public class CalendarProgram{
                 
 		/***************/
                 calendarPanel.setBounds(0, 0, 640, 670);
+                ToDoPanel.setBounds(calendarPanel.getX()+640,calendarPanel.getY() , 390, 700);
                 monthLabel.setBounds(320-monthLabel.getPreferredSize().width/2, 50, 200, 50);
 		yearLabel.setBounds(380, 610, 160, 40);
 		cmbYear.setBounds(460, 610, 160, 40);
 		btnPrev.setBounds(20, 50, 100, 50);
 		btnNext.setBounds(520, 50, 100, 50);
-		scrollCalendarTable.setBounds(20, 100, 600, 500);
+		scrollCalendarTable.setBounds(20, 100, 300, 290);
                 
 		frmMain.setResizable(false);
 		frmMain.setVisible(true);
@@ -228,7 +234,7 @@ public class CalendarProgram{
 		calendarTable.setRowSelectionAllowed(true);
 		calendarTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		calendarTable.setRowHeight(76);
+		calendarTable.setRowHeight(43);
 		modelCalendarTable.setColumnCount(7);
 		modelCalendarTable.setRowCount(6);
 		
