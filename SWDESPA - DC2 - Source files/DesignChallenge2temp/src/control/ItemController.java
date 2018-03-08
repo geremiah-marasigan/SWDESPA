@@ -24,34 +24,41 @@ public class ItemController {
 	
 	public void deleteItem(Item item) {
 		service.deleteItem(item.getToDo());
-		view.getToDoPanel().setItems(service.getAll());
+		view.getToDoPanel().setItems(service.getAllByDay(view.getMonth(),view.getDay(),view.getYear()));
 		view.revalidate();
 		view.repaint();
 	}
 	
 	public void addItem(Item item) {
 		service.addItem(item);
-		view.getToDoPanel().setItems(service.getAll());
+		view.getToDoPanel().setItems(service.getAllByDay(view.getMonth(),view.getDay(),view.getYear()));
 		view.revalidate();
 		view.repaint();
 	}
 	
 	public void editItem(Item item) {
 		service.updateItem(item);
-		view.getToDoPanel().setItems(service.getAll());
+		view.getToDoPanel().setItems(service.getAllByDay(view.getMonth(),view.getDay(),view.getYear()));
 		view.revalidate();
 		view.repaint();		
 	}
 	
-	public void filterToDo (int month, int day, int year) {
-		view.getToDoPanel().setItems(service.getAllByDay(month,day,year));
+	public void SchedView () {
+		view.getToDoPanel().setItems(service.getAllByDay(view.getMonth(),view.getDay(),view.getYear()));
+                System.out.println("Hello Lord");
 		view.revalidate();
 		view.repaint();
 	}
 	
+        public void filterToDo (int month, int day, int year) {
+		view.getToDoPanel().setItems(service.getAllByDay(month,day,year));
+		view.revalidate();
+		view.repaint();
+	}
+        
 	public void start() {
 		view.initialize(this);
-		view.getToDoPanel().setItems(service.getAll());
+		view.getToDoPanel().setItems(service.getAllByDay(view.getMonth(),view.getDay(),view.getYear()));
 		view.revalidate();
 		view.repaint();
 	}

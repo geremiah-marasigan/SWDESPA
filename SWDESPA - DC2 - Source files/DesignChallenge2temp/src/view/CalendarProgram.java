@@ -22,15 +22,15 @@ import view.ToDoItem;
 public class CalendarProgram{
 	
         /**** Day Components ****/
-	public int yearBound, monthBound, dayBound, yearToday, monthToday;
+	public int yearBound, monthBound, dayBound, yearToday, monthToday, dayToday;
 
         /**** Swing Components ****/
         public JLabel monthLabel, yearLabel, eventLabel, timeLabel, todoLabel;
-	public JButton btnPrev, btnNext, btnAddtoDo;
+	public JButton btnPrev, btnNext, btnAddtoDo, btnTask, btnSched;
         public JComboBox cmbYear;
 	public JFrame frmMain;
 	public Container pane;
-	public JScrollPane scrollCalendarTable, scrollToDo;
+	public JScrollPane scrollCalendarTable, scrollToDo, scrollSched;
 	public JPanel calendarPanel;
         
         /**** Calendar Table Components ***/
@@ -42,7 +42,8 @@ public class CalendarProgram{
         
         /**** Notification Components ****/
         public ToDoPanel ToDoPanel;
-        
+        public SchedPanel SchedPanel;
+        public ItemController ItemControl;
         /**** Export Components ****/
         public JButton btnExport;
         
@@ -73,7 +74,7 @@ public class CalendarProgram{
 		
 		for (i = 1; i <= nod; i++)
                 {
-                    String eventMonth="";
+                    String eventMonth = "";
 			int row = (i+som-2)/7;
 			int column  =  (i+som-2)%7;
                         modelCalendarTable.setValueAt(i, row, column);
@@ -115,8 +116,10 @@ public class CalendarProgram{
                 
 	}
         public void initialize(ItemController con){
+            this.ItemControl = con;
             ToDoPanel = new ToDoPanel(con);
             scrollToDo = new JScrollPane(ToDoPanel);
+            
             
             pane.add(scrollToDo);
             scrollToDo.setBounds(calendarPanel.getX()+350,calendarPanel.getY() ,703, 750);
@@ -143,6 +146,7 @@ public class CalendarProgram{
 		cmbYear = new JComboBox();
 		btnPrev = new JButton ("<<");
 		btnNext = new JButton (">>");
+                btnTask = new JButton ("ToDoList");
                 btnExport = new JButton("Export to .csv");
 		modelCalendarTable = new DefaultTableModel()
                 {
@@ -160,6 +164,8 @@ public class CalendarProgram{
                         int col = calendarTable.getSelectedColumn();  
                         int row = calendarTable.getSelectedRow();  
                         System.out.println("Hello");
+                        dayToday = Integer.parseInt(modelCalendarTable.getValueAt(row,col).toString());
+                        ItemControl.filterToDo(monthToday+1, dayToday , yearToday);
                         /*
                         NewEventWindow frmEventAdder = new NewEventWindow(monthToday+1,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]),CalendarProgram.this);
                         frmEventAdder.setResizable(false);
@@ -180,6 +186,7 @@ public class CalendarProgram{
                 
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
+                btnTask.addActionListener(new btnTask_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
 		
 		pane.add(calendarPanel);
@@ -188,6 +195,7 @@ public class CalendarProgram{
 		calendarPanel.add(cmbYear);
 		calendarPanel.add(btnPrev);
 		calendarPanel.add(btnNext);
+                calendarPanel.add(btnTask);
 		calendarPanel.add(scrollCalendarTable);
                 /***************/
                 btnExport.addActionListener(new ActionListener(){
@@ -206,6 +214,7 @@ public class CalendarProgram{
 		cmbYear.setBounds(yearLabel.getX()+80, 650, 60, 40);
 		btnPrev.setBounds(20, 290, 50, 50);
 		btnNext.setBounds(70, 290, 50, 50);
+                btnTask.setBounds(50, 50, 100, 50);
 		scrollCalendarTable.setBounds(20, 350, 300, 290);
                 
 		frmMain.setResizable(false);
@@ -217,7 +226,8 @@ public class CalendarProgram{
 		yearBound = cal.get(GregorianCalendar.YEAR);
 		monthToday = monthBound; 
 		yearToday = yearBound;
-		
+		dayToday = dayBound;
+                
 		String[] headers = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; //All headers
 		for (int i=0; i<7; i++){
 			modelCalendarTable.addColumn(headers[i]);
@@ -251,7 +261,11 @@ public class CalendarProgram{
 		refreshCalendar (monthBound, yearBound); //Refresh calendar
 	}
 	
-
+        class btnTask_Action implements ActionListener{
+            public void actionPerformed (ActionEvent e){
+                ItemControl.SchedView();
+            }
+        }
 	class btnPrev_Action implements ActionListener
         {
 		public void actionPerformed (ActionEvent e)
@@ -303,6 +317,15 @@ public class CalendarProgram{
             events.add(new Event(title, d, c, h));
         }
     */  
+        public int getMonth(){
+            return this.monthToday+1;
+        }
+        public int getDay(){
+            return this.dayToday;
+        }
+        public int getYear(){
+            return this.yearToday;
+        }
         public void revalidate(){
             this.frmMain.revalidate();
         }

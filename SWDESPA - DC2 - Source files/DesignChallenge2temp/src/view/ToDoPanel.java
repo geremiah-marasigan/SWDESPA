@@ -36,7 +36,23 @@ public class ToDoPanel extends JPanel {
 		repaint();
 		
 	}
-	
+	public void setItemsSched(List <Item> directory){
+            if(directory != null) {
+			for (int i = 0; i < items.size(); i++) {
+				remove(items.get(i));
+			}
+			
+			items.clear();
+			
+			for (int i = 0; i < directory.size(); i++) {
+				items.add(new ToDoItem(controller, this, directory.get(i)));
+			}
+			
+			for (int i = 0; i < items.size(); i++) {
+				add(items.get(i));
+			}
+	}
+        }
 	public void setItems (List <Item> directory) {
 			if(directory != null) {
 			for (int i = 0; i < items.size(); i++) {

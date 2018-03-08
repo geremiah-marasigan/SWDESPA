@@ -73,7 +73,6 @@ public class ToDoItem extends JPanel{
         timeLabel.setText(item.getStartTime());
         todoLabel.setText(item.getToDo());
         
-        timeLabel.setForeground(Color.red);
         todoLabel.setForeground(Color.red);
         
         setBackground(Color.white);
@@ -81,13 +80,28 @@ public class ToDoItem extends JPanel{
         btnDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //cp.events.remove(event);
+                control.deleteItem(item);
             }
         });
         btnComplete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
+                todoLabel.setForeground(Color.green);
             }
         });
+    }
+    
+    public ToDoItem(Item item){
+        this();
+        this.item = item;
+        
+        timeLabel.setText(item.getStartTime());
+        todoLabel.setText(item.getToDo());
+        
+        todoLabel.setForeground(Color.red);
+        
+        setBackground(Color.white);
+        btnDelete.setVisible(false);
+        btnComplete.setVisible(false);
     }
     
     public static final ToDoItem createHeader() {
