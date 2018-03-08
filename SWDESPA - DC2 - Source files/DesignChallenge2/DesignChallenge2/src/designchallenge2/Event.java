@@ -11,7 +11,11 @@ import java.util.Calendar;
  *
  * @author Zach Marasigan
  */
-public class Event extends Item{
+public class Event{
+    protected int num_30min_intervals; /*Can also be number of minutes intervals*/
+    protected Calendar date;
+    protected String title;
+    
     public Event(String title, Calendar d, int i){
         this.date = d;
         this.title = title;

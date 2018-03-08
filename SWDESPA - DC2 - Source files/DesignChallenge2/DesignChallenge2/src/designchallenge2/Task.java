@@ -10,14 +10,11 @@ import java.util.Calendar;
  *
  * @author Zach Marasigan
  */
-public class Task extends Item{
+public class Task extends Event{
     private boolean status;
     
-    public Task(CalendarProgram cp, String t, Calendar cd){
-        this.owner = cp;
-        this.title = t;
-        this.date = cd;
-        this.num_30min_intervals = 1;
+    public Task(String title, Calendar d){
+        super(title, d, 1);
         this.status = false;
     }
     
