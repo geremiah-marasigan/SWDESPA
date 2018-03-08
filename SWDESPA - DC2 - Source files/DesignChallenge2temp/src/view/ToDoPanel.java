@@ -21,22 +21,24 @@ import view.materialdesign.VerticalFlowLayout;
 public class ToDoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private List <ToDoItem> items;
-	private ToDoItem header;
+	private ToDoItem headerToDo,headerSched;
 	private ItemController controller;
 	
 	public ToDoPanel (ItemController controller) {
-		header = ToDoItem.createHeader();
+		headerToDo = ToDoItem.createHeaderToDo();
+                headerSched = ToDoItem.createHeaderSched();
 		this.controller = controller;
 		items = new ArrayList <ToDoItem> ();
-		setPreferredSize(new Dimension(980,700));		
+		setPreferredSize(new Dimension(650,2940));		
 		setLayout(new VerticalFlowLayout(VerticalFlowLayout.LEFT, 
 				VerticalFlowLayout.TOP,0,0));
-		add(header);
 		revalidate();
 		repaint();
 		
 	}
 	public void setItemsSched(List <Item> directory){
+            remove(headerToDo);
+            add(headerSched);
             if(directory != null) {
 			for (int i = 0; i < items.size(); i++) {
 				remove(items.get(i));
@@ -44,16 +46,28 @@ public class ToDoPanel extends JPanel {
 			
 			items.clear();
 			
-			for (int i = 0; i < directory.size(); i++) {
-				items.add(new ToDoItem(controller, this, directory.get(i)));
-			}
+			for (int i = 0; i < 48; i++) {
+                            Item temp = null;
+                            boolean odd = false;
+                            if (i%2 != 0)
+                                odd = true;
+                            for (Item item:directory)
+                                if (controller.checkMatch(item.getMonth(), item.getDay(), item.getYear()))
+                                    if(item.getStartTime().toString().split(":")[0].equals(String.valueOf(i/2)) && !odd)
+                                        temp = item;
+                            items.add(new ToDoItem(i/2,controller, this, temp, odd));
+                            
+                        }
 			
-			for (int i = 0; i < items.size(); i++) {
+			for (int i = 0; i < 48; i++) {
+                                System.out.println(i);
 				add(items.get(i));
 			}
 	}
         }
 	public void setItems (List <Item> directory) {
+            remove(headerSched);
+            add(headerToDo);
 			if(directory != null) {
 			for (int i = 0; i < items.size(); i++) {
 				remove(items.get(i));

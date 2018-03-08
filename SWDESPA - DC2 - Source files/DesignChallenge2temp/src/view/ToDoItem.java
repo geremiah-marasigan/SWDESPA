@@ -42,7 +42,7 @@ public class ToDoItem extends JPanel{
         //todoLabel.setFont(Font.decode("Arial").deriveFont(18f).deriveFont(Font.BOLD));
         
         timeLabel.setPreferredSize(new Dimension(100,50));
-        todoLabel.setPreferredSize(new Dimension(480,50));
+        todoLabel.setPreferredSize(new Dimension(440,50));
         btnDelete.setPreferredSize(new Dimension(60,40));
         btnComplete.setPreferredSize(new Dimension(60,40));
         
@@ -70,8 +70,8 @@ public class ToDoItem extends JPanel{
         setController(con);
         this.item = item;
         
-        timeLabel.setText(item.getStartTime());
-        todoLabel.setText(item.getToDo());
+        timeLabel.setText(" "+item.getStartTime());
+        todoLabel.setText(" "+item.getToDo());
         
         todoLabel.setForeground(Color.red);
         
@@ -90,30 +90,54 @@ public class ToDoItem extends JPanel{
         });
     }
     
-    public ToDoItem(Item item){
+    public ToDoItem(int i,ItemController con,ToDoPanel parent,Item item,boolean odd){
         this();
-        this.item = item;
+        setController(con);
+        if (item != null){
+            this.item = item;
+            timeLabel.setText(" "+item.getStartTime());
+            todoLabel.setText(" "+item.getToDo());
+            todoLabel.setForeground(Color.red);
+            
+        }
+        else
+        {
+            if(odd)
+                timeLabel.setText(" "+i + ":30");
+            else
+                timeLabel.setText(" "+i + ":00");
+            todoLabel.setText("");
+        }
         
-        timeLabel.setText(item.getStartTime());
-        todoLabel.setText(item.getToDo());
-        
-        todoLabel.setForeground(Color.red);
         
         setBackground(Color.white);
+        
         btnDelete.setVisible(false);
         btnComplete.setVisible(false);
     }
     
-    public static final ToDoItem createHeader() {
+    public static final ToDoItem createHeaderToDo() {
 		ToDoItem item = new ToDoItem();
-		item.timeLabel.setText("Time");
-		item.todoLabel.setText("ToDoToday");
+		item.timeLabel.setText(" Time");
+		item.todoLabel.setText(" ToDoToday");
 		
 		
 		item.btnDelete.setVisible(false);
 		item.btnComplete.setVisible(false);
 		System.out.println("Hello");
                 item.setBackground(Color.yellow);
+		return item;
+	}
+    public static final ToDoItem createHeaderSched() {
+		ToDoItem item = new ToDoItem();
+		item.timeLabel.setText(" Time");
+		item.todoLabel.setText(" ToDoToday");
+		
+		
+		item.btnDelete.setVisible(false);
+		item.btnComplete.setVisible(false);
+		System.out.println("Bye");
+                item.setBackground(Color.blue);
 		return item;
 	}
 }

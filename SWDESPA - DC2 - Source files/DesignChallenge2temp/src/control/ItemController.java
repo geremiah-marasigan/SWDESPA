@@ -44,7 +44,7 @@ public class ItemController {
 	}
 	
 	public void SchedView () {
-		view.getToDoPanel().setItems(service.getAllByDay(view.getMonth(),view.getDay(),view.getYear()));
+		view.getToDoPanel().setItemsSched(service.getAllByDay(view.getMonth(),view.getDay(),view.getYear()));
                 System.out.println("Hello Lord");
 		view.revalidate();
 		view.repaint();
@@ -63,5 +63,11 @@ public class ItemController {
 		view.repaint();
 	}
         
+        public boolean checkMatch(int month, int day, int year){
+            if(month == view.getMonth() && day == view.getDay() && year == view.getYear())
+                return true;
+            else
+                return false;
+        }
 }
 

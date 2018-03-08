@@ -42,7 +42,6 @@ public class CalendarProgram{
         
         /**** Notification Components ****/
         public ToDoPanel ToDoPanel;
-        public SchedPanel SchedPanel;
         public ItemController ItemControl;
         /**** Export Components ****/
         public JButton btnExport;
@@ -120,9 +119,8 @@ public class CalendarProgram{
             ToDoPanel = new ToDoPanel(con);
             scrollToDo = new JScrollPane(ToDoPanel);
             
-            
             pane.add(scrollToDo);
-            scrollToDo.setBounds(calendarPanel.getX()+350,calendarPanel.getY() ,703, 750);
+            scrollToDo.setBounds(calendarPanel.getX()+350,calendarPanel.getY() ,691, 701);
         }
 	public CalendarProgram()
         {
@@ -135,7 +133,7 @@ public class CalendarProgram{
                 //timer.scheduleAtFixedRate(timerTask, 1000, 1000); //Update in real-time
                 
 		frmMain = new JFrame ("Calendar Application");
-                frmMain.setSize(1060, 750);
+                frmMain.setSize(1048, 737);
 		pane = frmMain.getContentPane();
 		pane.setLayout(null);
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -147,6 +145,7 @@ public class CalendarProgram{
 		btnPrev = new JButton ("<<");
 		btnNext = new JButton (">>");
                 btnTask = new JButton ("ToDoList");
+                btnSched = new JButton ("Schedule");
                 btnExport = new JButton("Export to .csv");
 		modelCalendarTable = new DefaultTableModel()
                 {
@@ -187,6 +186,7 @@ public class CalendarProgram{
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
                 btnTask.addActionListener(new btnTask_Action());
+                btnSched.addActionListener(new btnSched_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
 		
 		pane.add(calendarPanel);
@@ -196,6 +196,7 @@ public class CalendarProgram{
 		calendarPanel.add(btnPrev);
 		calendarPanel.add(btnNext);
                 calendarPanel.add(btnTask);
+                calendarPanel.add(btnSched);
 		calendarPanel.add(scrollCalendarTable);
                 /***************/
                 btnExport.addActionListener(new ActionListener(){
@@ -214,7 +215,8 @@ public class CalendarProgram{
 		cmbYear.setBounds(yearLabel.getX()+80, 650, 60, 40);
 		btnPrev.setBounds(20, 290, 50, 50);
 		btnNext.setBounds(70, 290, 50, 50);
-                btnTask.setBounds(50, 50, 100, 50);
+                btnTask.setBounds(20, 50, 100, 50);
+                btnSched.setBounds(220,50,100,50);
 		scrollCalendarTable.setBounds(20, 350, 300, 290);
                 
 		frmMain.setResizable(false);
@@ -262,6 +264,11 @@ public class CalendarProgram{
 	}
 	
         class btnTask_Action implements ActionListener{
+            public void actionPerformed (ActionEvent e){
+                ItemControl.filterToDo(monthToday+1, dayToday , yearToday);
+            }
+        }
+        class btnSched_Action implements ActionListener{
             public void actionPerformed (ActionEvent e){
                 ItemControl.SchedView();
             }
