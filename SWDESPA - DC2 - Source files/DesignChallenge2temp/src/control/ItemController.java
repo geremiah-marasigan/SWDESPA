@@ -1,0 +1,60 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package control;
+
+import model.Item;
+import model.ItemsServices;
+import view.CalendarProgram;
+
+/**
+ *
+ * @author Kyle
+ */
+public class ItemController {
+	private ItemsServices service;
+	private CalendarProgram view;
+	
+	public ItemController(ItemsServices service, CalendarProgram frame) {
+		this.service = service;
+		this.view = frame;
+	}
+	
+	public void deleteItem(Item item) {
+		service.deleteItem(item.getToDo());
+		view.getToDoPanel().setItems(service.getAll());
+		view.revalidate();
+		view.repaint();
+	}
+	
+	public void addItem(Item item) {
+		service.addItem(item);
+		view.getToDoPanel().setItems(service.getAll());
+		view.revalidate();
+		view.repaint();
+	}
+	
+	public void editItem(Item item) {
+		service.updateItem(item);
+		view.getToDoPanel().setItems(service.getAll());
+		view.revalidate();
+		view.repaint();		
+	}
+	
+	public void filterToDo (int month, int day, int year) {
+		view.getToDoPanel().setItems(service.getAllByDay(month,day,year));
+		view.revalidate();
+		view.repaint();
+	}
+	
+	public void start() {
+		view.initialize(this);
+		view.getToDoPanel().setItems(service.getAll());
+		view.revalidate();
+		view.repaint();
+	}
+        
+}
+
