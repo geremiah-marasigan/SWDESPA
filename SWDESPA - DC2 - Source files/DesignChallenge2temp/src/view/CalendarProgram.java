@@ -44,7 +44,7 @@ public class CalendarProgram{
         public ToDoPanel ToDoPanel;
         public ItemController ItemControl;
         /**** Export Components ****/
-        public JButton btnExport;
+        public JButton btnAddItem;
         
         public void refreshCalendar(int month, int year)
         {
@@ -120,6 +120,8 @@ public class CalendarProgram{
             scrollToDo = new JScrollPane(ToDoPanel);
             
             pane.add(scrollToDo);
+            scrollToDo.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollToDo.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             scrollToDo.setBounds(calendarPanel.getX()+350,calendarPanel.getY() ,691, 701);
         }
 	public CalendarProgram()
@@ -146,7 +148,7 @@ public class CalendarProgram{
 		btnNext = new JButton (">>");
                 btnTask = new JButton ("ToDoList");
                 btnSched = new JButton ("Schedule");
-                btnExport = new JButton("Export to .csv");
+                btnAddItem = new JButton("Export to .csv");
 		modelCalendarTable = new DefaultTableModel()
                 {
                     public boolean isCellEditable(int rowIndex, int mColIndex)
@@ -199,19 +201,19 @@ public class CalendarProgram{
                 calendarPanel.add(btnSched);
 		calendarPanel.add(scrollCalendarTable);
                 /***************/
-                btnExport.addActionListener(new ActionListener(){
+                btnAddItem.addActionListener(new ActionListener(){
                     public void actionPerformed(ActionEvent e){
                         //exportToCsv();
                     }
                 });
                 
-                calendarPanel.add(btnExport);
-                btnExport.setBounds(19, 650, 120, 40);
+                calendarPanel.add(btnAddItem);
+                btnAddItem.setBounds(19, 650, 120, 40);
                 
 		/***************/
                 calendarPanel.setBounds(0, 0, 350, 750);
                 monthLabel.setBounds(320-monthLabel.getPreferredSize().width/2, 200, 200, 50);
-		yearLabel.setBounds(btnExport.getX()+162, 650, 80, 40);
+		yearLabel.setBounds(btnAddItem.getX()+162, 650, 80, 40);
 		cmbYear.setBounds(yearLabel.getX()+80, 650, 60, 40);
 		btnPrev.setBounds(20, 290, 50, 50);
 		btnNext.setBounds(70, 290, 50, 50);

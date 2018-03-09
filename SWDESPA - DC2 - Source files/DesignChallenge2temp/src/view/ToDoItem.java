@@ -70,10 +70,19 @@ public class ToDoItem extends JPanel{
         setController(con);
         this.item = item;
         
-        timeLabel.setText(" "+item.getStartTime());
-        todoLabel.setText(" "+item.getToDo());
-        
-        todoLabel.setForeground(Color.red);
+        timeLabel.setText(" "+this.item.getStartTime());
+        todoLabel.setText(" "+this.item.getToDo());
+        if(this.item.getDone() == 0)
+            todoLabel.setForeground(Color.red);
+        else if(this.item.getDone() == 1){
+            todoLabel.setForeground(Color.green);
+            btnComplete.setVisible(false);
+        }
+        else{
+            todoLabel.setForeground(Color.blue);
+            btnDelete.setVisible(false);
+            btnComplete.setVisible(false);
+        }
         
         setBackground(Color.white);
         
@@ -86,6 +95,9 @@ public class ToDoItem extends JPanel{
         btnComplete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 todoLabel.setForeground(Color.green);
+                control.deleteItem(item);
+                item.setDone(1);
+                control.addItem(item);
             }
         });
     }
@@ -94,11 +106,11 @@ public class ToDoItem extends JPanel{
         this();
         setController(con);
         if (item != null){
+            System.out.println("POKEMON");
             this.item = item;
             timeLabel.setText(" "+item.getStartTime());
             todoLabel.setText(" "+item.getToDo());
             todoLabel.setForeground(Color.red);
-            
         }
         else
         {
@@ -138,6 +150,19 @@ public class ToDoItem extends JPanel{
 		item.btnComplete.setVisible(false);
 		System.out.println("Bye");
                 item.setBackground(Color.blue);
+		return item;
+	}
+    
+    public static final ToDoItem createEmpty() {
+		ToDoItem item = new ToDoItem();
+		item.timeLabel.setText(" ");
+		item.todoLabel.setText(" Nothing to do today");
+		
+		
+		item.btnDelete.setVisible(false);
+		item.btnComplete.setVisible(false);
+		System.out.println("Bye");
+                item.setBackground(Color.white);
 		return item;
 	}
 }

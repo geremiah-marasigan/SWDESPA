@@ -21,12 +21,13 @@ import view.materialdesign.VerticalFlowLayout;
 public class ToDoPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private List <ToDoItem> items;
-	private ToDoItem headerToDo,headerSched;
+	private ToDoItem headerToDo,headerSched,emptyToDo;
 	private ItemController controller;
 	
 	public ToDoPanel (ItemController controller) {
 		headerToDo = ToDoItem.createHeaderToDo();
                 headerSched = ToDoItem.createHeaderSched();
+                emptyToDo = ToDoItem.createEmpty();
 		this.controller = controller;
 		items = new ArrayList <ToDoItem> ();
 		setPreferredSize(new Dimension(650,2940));		
@@ -37,6 +38,7 @@ public class ToDoPanel extends JPanel {
 		
 	}
 	public void setItemsSched(List <Item> directory){
+            remove(emptyToDo);
             remove(headerToDo);
             add(headerSched);
             if(directory != null) {
@@ -53,19 +55,19 @@ public class ToDoPanel extends JPanel {
                                 odd = true;
                             for (Item item:directory)
                                 if (controller.checkMatch(item.getMonth(), item.getDay(), item.getYear()))
-                                    if(item.getStartTime().toString().split(":")[0].equals(String.valueOf(i/2)) && !odd)
+                                    if(Integer.valueOf(item.getStartTime().toString().split(":")[0]) == i/2 && !odd)
                                         temp = item;
                             items.add(new ToDoItem(i/2,controller, this, temp, odd));
                             
                         }
 			
 			for (int i = 0; i < 48; i++) {
-                                System.out.println(i);
 				add(items.get(i));
 			}
 	}
         }
 	public void setItems (List <Item> directory) {
+            remove(emptyToDo);
             remove(headerSched);
             add(headerToDo);
 			if(directory != null) {
@@ -78,10 +80,12 @@ public class ToDoPanel extends JPanel {
 			for (int i = 0; i < directory.size(); i++) {
 				items.add(new ToDoItem(controller, this, directory.get(i)));
 			}
-			
-			for (int i = 0; i < items.size(); i++) {
-				add(items.get(i));
-			}
+			if (items.size()!= 0)
+                            for (int i = 0; i < items.size(); i++) {
+                                    add(items.get(i));
+                            }
+                        else
+                            add(emptyToDo);
 		}
 	}
 }

@@ -112,13 +112,13 @@ public class ItemsServices {
 			Connection connect = connection.getConnection();
 			
 			String query = 	"UPDATE " +  Item.TABLE + 
-							" SET " + Item.COL_ST + " = ?, " +
-							Item.COL_IN + " = ?, " + 
-							Item.COL_MN + " = ?, " +
-							Item.COL_DY + " = ?, " +
-							Item.COL_YR + " = ?, " +
-							Item.COL_DN + " = ?, " +
-							" WHERE " + Item.COL_TD + " = ? ";
+					" SET " + Item.COL_ST + " = ?, " +
+					Item.COL_IN + " = ?, " + 
+					Item.COL_MN + " = ?, " +
+					Item.COL_DY + " = ?, " +
+					Item.COL_YR + " = ?, " +
+					Item.COL_DN + " = ? " +
+					" WHERE " + Item.COL_TD + " = ?; ";
 			
 			PreparedStatement statement = connect.prepareStatement(query);
 
@@ -145,13 +145,14 @@ public class ItemsServices {
 				" FROM " + Item.TABLE +
 				" WHERE " + Item.COL_MN + " = ? AND "+
                                 Item.COL_DY + " = ? AND " + Item.COL_YR + " = ?"
-                                ;
+                                + " ORDER BY " + Item.COL_ST;
 
 		try {
 			PreparedStatement statement = connect.prepareStatement(query);
 			statement.setInt(1, month);
                         statement.setInt(2, day);
                         statement.setInt(3, year);
+                        
 			ResultSet rs = statement.executeQuery();
 			
 			
