@@ -145,7 +145,7 @@ public class NewItemWindow extends JFrame{
                 String timeStart = (String)cmbTimeStart.getSelectedItem();
                 if(timeStart.split(":")[0].length() < 2)
                     timeStart = "0" + timeStart;
-                String whatMonth = Integer.toString(cmbMonthStart.getSelectedIndex());
+                String whatMonth = Integer.toString(cmbMonthStart.getSelectedIndex() + 1);
                 if(whatMonth.length() < 2)
                     whatMonth = "0" + whatMonth;
                 String whatDay = (String)cmbDayStart.getSelectedItem();
@@ -201,7 +201,7 @@ public class NewItemWindow extends JFrame{
                         newItem.setInterval(interval); 
                     }
                     newItem.setDay(cal.get(Calendar.DAY_OF_MONTH));
-                    newItem.setMonth(cal.get(Calendar.MONTH));
+                    newItem.setMonth(cal.get(Calendar.MONTH) + 1);
                     newItem.setYear(yearToday);
                     newItem.setStartTime(timeStart);
                     newItem.setToDo(txtTitle.getText());
