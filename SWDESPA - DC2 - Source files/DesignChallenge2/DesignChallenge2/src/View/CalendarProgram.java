@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package designchallenge2;
+package view;
 
 /**
  *
  * @author Arturo III
  */
 
+import control.ItemController;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
@@ -16,20 +17,21 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.PrintStream;
 import java.util.*;
+import view.ToDoItem;
 
 public class CalendarProgram{
 	
         /**** Day Components ****/
-	public int yearBound, monthBound, dayBound, yearToday, monthToday;
+	public int yearBound, monthBound, dayBound, yearToday, monthToday, dayToday;
 
         /**** Swing Components ****/
         public JLabel monthLabel, yearLabel, eventLabel, timeLabel, todoLabel;
-	public JButton btnPrev, btnNext, btnAddtoDo;
+	public JButton btnPrev, btnNext, btnAddtoDo, btnTask, btnSched;
         public JComboBox cmbYear;
 	public JFrame frmMain;
 	public Container pane;
-	public JScrollPane scrollCalendarTable;
-	public JPanel calendarPanel,ToDoPanel;
+	public JScrollPane scrollCalendarTable, scrollToDo, scrollSched;
+	public JPanel calendarPanel;
         
         /**** Calendar Table Components ***/
 	public JTable calendarTable;
@@ -39,11 +41,10 @@ public class CalendarProgram{
         public ArrayList<Event> events;
         
         /**** Notification Components ****/
-        public java.util.Timer timer;
-        public TimerTask timerTask;
-        
+        public ToDoPanel ToDoPanel;
+        public ItemController ItemControl;
         /**** Export Components ****/
-        public JButton btnExport;
+        public JButton btnAddItem;
         
         public void refreshCalendar(int month, int year)
         {
@@ -57,7 +58,7 @@ public class CalendarProgram{
 		if (month == 11 && year >= yearBound+100)
                     btnNext.setEnabled(false);
                 
-		monthLabel.setText(months[month] + " " + today.get(Calendar.DAY_OF_MONTH) + ", " + yearToday);
+		monthLabel.setText(months[month] + " " + yearToday);
 		monthLabel.setBounds(280-monthLabel.getPreferredSize().width/2, 290, 300, 50);
                 
 		cmbYear.setSelectedItem(""+year);
@@ -72,7 +73,7 @@ public class CalendarProgram{
 		
 		for (i = 1; i <= nod; i++)
                 {
-                    String eventMonth="";
+                    String eventMonth = "";
 			int row = (i+som-2)/7;
 			int column  =  (i+som-2)%7;
                         modelCalendarTable.setValueAt(i, row, column);
@@ -91,7 +92,7 @@ public class CalendarProgram{
                                 case 11: eventMonth = "Nov"; break;
                                 case 12: eventMonth = "Dec"; break;
                             }
-                            
+                            /*
                             for(Event event: this.events){
                                 String s = event.toString();
                                 String[] sa = s.split(" ");
@@ -103,16 +104,26 @@ public class CalendarProgram{
                                 }
                                 
                             }
+                            */
                         }
                         catch (Exception e){
                             
                         }
                 }
 
-		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new TableRenderer(events));
+		calendarTable.setDefaultRenderer(calendarTable.getColumnClass(0), new TableRenderer());
                 
 	}
-        
+        public void initialize(ItemController con){
+            this.ItemControl = con;
+            ToDoPanel = new ToDoPanel(con);
+            scrollToDo = new JScrollPane(ToDoPanel);
+            
+            pane.add(scrollToDo);
+            scrollToDo.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            scrollToDo.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            scrollToDo.setBounds(calendarPanel.getX()+350,calendarPanel.getY() ,691, 701);
+        }
 	public CalendarProgram()
         {
 		try {
@@ -124,7 +135,7 @@ public class CalendarProgram{
                 //timer.scheduleAtFixedRate(timerTask, 1000, 1000); //Update in real-time
                 
 		frmMain = new JFrame ("Calendar Application");
-                frmMain.setSize(1060, 750);
+                frmMain.setSize(1048, 737);
 		pane = frmMain.getContentPane();
 		pane.setLayout(null);
 		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,7 +146,9 @@ public class CalendarProgram{
 		cmbYear = new JComboBox();
 		btnPrev = new JButton ("<<");
 		btnNext = new JButton (">>");
-                btnExport = new JButton("Export to .csv");
+                btnTask = new JButton ("ToDoList");
+                btnSched = new JButton ("Schedule");
+                btnAddItem = new JButton("Export to .csv");
 		modelCalendarTable = new DefaultTableModel()
                 {
                     public boolean isCellEditable(int rowIndex, int mColIndex)
@@ -152,6 +165,9 @@ public class CalendarProgram{
                         int col = calendarTable.getSelectedColumn();  
                         int row = calendarTable.getSelectedRow();  
                         System.out.println("Hello");
+                        dayToday = Integer.parseInt(modelCalendarTable.getValueAt(row,col).toString());
+                        ItemControl.filterToDo(monthToday+1, dayToday , yearToday);
+                        /*
                         NewEventWindow frmEventAdder = new NewEventWindow(monthToday+1,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]),CalendarProgram.this);
                         frmEventAdder.setResizable(false);
                         frmEventAdder.setVisible(true);
@@ -159,47 +175,50 @@ public class CalendarProgram{
                         frmEventAdder.setLocation(frmMain.getX()+frmMain.getWidth(),frmMain.getY());
                         for (int i = 0; i < events.size(); i++)
                             System.out.println(events.get(i).toString());
+                        */
                     }
                 });
                 
 		scrollCalendarTable = new JScrollPane(calendarTable);
 		calendarPanel = new JPanel(null);
-                ToDoPanel = new JPanel(null);
 		
                 //calendarPanel.setBorder(BorderFactory.createTitledBorder(""));
 		//ToDoPanel.setBorder(BorderFactory.createTitledBorder(""));
                 
 		btnPrev.addActionListener(new btnPrev_Action());
 		btnNext.addActionListener(new btnNext_Action());
+                btnTask.addActionListener(new btnTask_Action());
+                btnSched.addActionListener(new btnSched_Action());
 		cmbYear.addActionListener(new cmbYear_Action());
 		
 		pane.add(calendarPanel);
-                pane.add(ToDoPanel);
-                ToDoPanel.add(ToDoItem.createHeader());
 		calendarPanel.add(monthLabel);
 		calendarPanel.add(yearLabel);
 		calendarPanel.add(cmbYear);
 		calendarPanel.add(btnPrev);
 		calendarPanel.add(btnNext);
+                calendarPanel.add(btnTask);
+                calendarPanel.add(btnSched);
 		calendarPanel.add(scrollCalendarTable);
                 /***************/
-                btnExport.addActionListener(new ActionListener(){
+                btnAddItem.addActionListener(new ActionListener(){
                     public void actionPerformed(ActionEvent e){
-                        exportToCsv();
+                        //exportToCsv();
                     }
                 });
                 
-                calendarPanel.add(btnExport);
-                btnExport.setBounds(19, 650, 120, 40);
+                calendarPanel.add(btnAddItem);
+                btnAddItem.setBounds(19, 650, 120, 40);
                 
 		/***************/
                 calendarPanel.setBounds(0, 0, 350, 750);
-                ToDoPanel.setBounds(calendarPanel.getX()+350,calendarPanel.getY() ,710, 750);
                 monthLabel.setBounds(320-monthLabel.getPreferredSize().width/2, 200, 200, 50);
-		yearLabel.setBounds(btnExport.getX()+162, 650, 80, 40);
+		yearLabel.setBounds(btnAddItem.getX()+162, 650, 80, 40);
 		cmbYear.setBounds(yearLabel.getX()+80, 650, 60, 40);
 		btnPrev.setBounds(20, 290, 50, 50);
 		btnNext.setBounds(70, 290, 50, 50);
+                btnTask.setBounds(20, 50, 100, 50);
+                btnSched.setBounds(220,50,100,50);
 		scrollCalendarTable.setBounds(20, 350, 300, 290);
                 
 		frmMain.setResizable(false);
@@ -211,7 +230,8 @@ public class CalendarProgram{
 		yearBound = cal.get(GregorianCalendar.YEAR);
 		monthToday = monthBound; 
 		yearToday = yearBound;
-		
+		dayToday = dayBound;
+                
 		String[] headers = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; //All headers
 		for (int i=0; i<7; i++){
 			modelCalendarTable.addColumn(headers[i]);
@@ -242,11 +262,19 @@ public class CalendarProgram{
                 
                 for (int i = 0; i < events.size(); i++)
                     System.out.println(events.get(i).toString());
-                setList();
 		refreshCalendar (monthBound, yearBound); //Refresh calendar
 	}
 	
-
+        class btnTask_Action implements ActionListener{
+            public void actionPerformed (ActionEvent e){
+                ItemControl.filterToDo(monthToday+1, dayToday , yearToday);
+            }
+        }
+        class btnSched_Action implements ActionListener{
+            public void actionPerformed (ActionEvent e){
+                ItemControl.SchedView();
+            }
+        }
 	class btnPrev_Action implements ActionListener
         {
 		public void actionPerformed (ActionEvent e)
@@ -293,36 +321,28 @@ public class CalendarProgram{
 	}
         
         /***** New code *****/
-        public void importEventFromFile(String filename){
-            CSVParser csv;
-            PipeDelimitedParser pipe;
-            if(filename.contains(".csv")){
-                csv = new CSVParser(this);
-                csv.readData(filename);
-                csv.processData();
-            }else if(filename.contains(".psv")){
-                pipe = new PipeDelimitedParser(this);
-                pipe.readData(filename);
-                pipe.processData();
-            }
-        }
         
-        public void exportToCsv(){
-            CSVParser csv;
-            csv = new CSVParser(this);
-            csv.writeData();
-        }
-        
-        
-        public void addEvent(String title, Date d, Color c,int h){
+    /*    public void addEvent(String title, Date d, Color c,int h){
             events.add(new Event(title, d, c, h));
         }
-        
-        public void setList(){
-            ToDoPanel.add(new ToDoItem("12:51", "It works",50));
-            System.out.println("WORK");
-            ToDoPanel.add(new ToDoItem("12:59", "Think about K _ _",100));
-            System.out.println("PLEASE");
-            
+    */  
+        public int getMonth(){
+            return this.monthToday+1;
         }
+        public int getDay(){
+            return this.dayToday;
+        }
+        public int getYear(){
+            return this.yearToday;
+        }
+        public void revalidate(){
+            this.frmMain.revalidate();
+        }
+        public void repaint(){
+            this.frmMain.repaint();
+        }
+        public ToDoPanel getToDoPanel(){
+            return this.ToDoPanel;
+        }
+    
 }

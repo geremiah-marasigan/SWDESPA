@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package designchallenge2;
+package view;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -23,12 +23,7 @@ import javax.swing.text.StyledDocument;
  */
 public class TableRenderer extends JTextPane implements TableCellRenderer
 {
-    private ArrayList<Event> events;
-    public TableRenderer(ArrayList<Event> events){
-        this.events = events;
-        
-            
-    }   
+       
     public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column)
     {
             StyledDocument doc = this.getStyledDocument();
@@ -48,13 +43,15 @@ public class TableRenderer extends JTextPane implements TableCellRenderer
             if (value != null){
                 try {
                     doc.insertString(doc.getLength(), value.toString().split(" ")[0], style);
-             
+                /*
                 for(Event event: this.events)
                     if(value.toString().contains(event.getEvent())){
                         StyleConstants.setForeground(style, event.getColor());
                         doc.insertString(doc.getLength(), " " + event.getEvent() , style);
                     }
+                */
                 }
+                
                 catch (Exception e){
                     
                 }
