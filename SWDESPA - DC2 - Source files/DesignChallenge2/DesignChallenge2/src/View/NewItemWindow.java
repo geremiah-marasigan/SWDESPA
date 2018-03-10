@@ -139,7 +139,6 @@ public class NewItemWindow extends JFrame{
                         System.out.println("Interval: " + interval + " Error: " + error);
                     }
                 } else {
-                    error = false;
                     interval = 1;
                 }
                 
@@ -147,10 +146,13 @@ public class NewItemWindow extends JFrame{
                 if(timeStart.split(":")[0].length() < 2)
                     timeStart = "0" + timeStart;
                 String whatMonth = Integer.toString(cmbMonthStart.getSelectedIndex());
-                if(timeStart.split(":")[0].length() < 2)
+                if(whatMonth.length() < 2)
                     whatMonth = "0" + whatMonth;
+                String whatDay = (String)cmbDayStart.getSelectedItem();
+                if(whatDay.length() < 2)
+                    whatDay = "0" + whatDay;
                 
-                String dateString = whatMonth+"/"+cmbDayStart.getSelectedItem()+"/"+ yearToday + " " + (timeStart.split(":"))[0] + ":" + (timeStart.split(":"))[1];
+                String dateString = whatMonth+"/"+whatDay+"/"+ yearToday + " " + (timeStart.split(":"))[0] + ":" + (timeStart.split(":"))[1];
                 System.out.println("TimeStart: " + timeStart + " Date: " + dateString);
                 DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
                 Calendar cal = Calendar.getInstance();
@@ -179,6 +181,12 @@ public class NewItemWindow extends JFrame{
                        iCalendar.compareTo(cal) > 0 && iCalendar.compareTo(calEnd) < 0)  /*iStart is after Start and before End*/
                         error = true;
                 }
+                
+                /*Check for conflicting names*/
+                for(Item i: items)
+                    if(txtTitle.getText().equals(i.getToDo()))
+                        error = true;
+                
                 
                 if(error){
                     JOptionPane.showMessageDialog(NewItemWindow.this, "Error Found. Please fix your input");
