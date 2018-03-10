@@ -168,13 +168,11 @@ public class CalendarProgram{
                         dayToday = Integer.parseInt(modelCalendarTable.getValueAt(row,col).toString());
                         ItemControl.filterToDo(monthToday+1, dayToday , yearToday);
                         /*
-                        NewEventWindow frmEventAdder = new NewEventWindow(monthToday+1,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]),CalendarProgram.this);
+                        NewItemWindow frmEventAdder = new NewItemWindow(ItemControl ,yearToday);
                         frmEventAdder.setResizable(false);
                         frmEventAdder.setVisible(true);
                         frmEventAdder.setSize(450, 100);
                         frmEventAdder.setLocation(frmMain.getX()+frmMain.getWidth(),frmMain.getY());
-                        for (int i = 0; i < events.size(); i++)
-                            System.out.println(events.get(i).toString());
                         */
                     }
                 });

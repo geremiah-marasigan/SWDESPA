@@ -7,7 +7,8 @@ package view;
 
 import model.*;
 import control.*;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
@@ -18,7 +19,6 @@ import java.lang.*;
  * @author Zach Marasigan
  */
 public class NewItemWindow extends JFrame{
-    private ItemController itemCtrl;
     private final String[] timeInterval;
     private final String[] months;
     private final String[] days31;
@@ -161,13 +161,44 @@ public class NewItemWindow extends JFrame{
                 }
                 
                 /*Check if conflict, set error to true*/
+                List<Item> items = iCtrl.getAllItems();
+                Calendar iCalendar = Calendar.getInstance();
+                Calendar calEnd = cal;
+                calEnd.add(Calendar.MINUTE, 30*interval);
+                for(Item i: items){
+                    String temp;
+                    temp = String.format("%02d",i.getMonth()) + "/" + String.format("%02d",i.getDay()) + "/" + String.format("%04d",i.getYear()) + " " + i.getStartTime();
+                    try{
+                        iCalendar.setTime(df.parse(temp));
+                    } catch(ParseException ex){
+                        System.out.println(ex.getMessage());
+                    }
+                    Calendar iCalendarEnd = iCalendar;
+                    iCalendarEnd.add(Calendar.MINUTE, 30*i.getInterval());
+                    if(cal.compareTo(iCalendar) > 0 && cal.compareTo(iCalendarEnd) < 0 || /*Start is after iStart and before iEnd*/
+                       iCalendar.compareTo(cal) > 0 && iCalendar.compareTo(calEnd) < 0)  /*iStart is after Start and before End*/
+                        error = true;
+                }
                 
                 if(error){
                     JOptionPane.showMessageDialog(NewItemWindow.this, "Error Found. Please fix your input");
                 } else {
                     System.out.println("Date: " + cal.toString() + " Intervals: " + interval);
                     Item newItem = new Item();
+                    if(chkTask.isSelected()){
+                        newItem.setDone(0);
+                        newItem.setInterval(1);
+                    } else {
+                        newItem.setDone(-1);
+                        newItem.setInterval(interval); 
+                    }
+                    newItem.setDay(cal.get(Calendar.DAY_OF_MONTH));
+                    newItem.setMonth(cal.get(Calendar.MONTH));
+                    newItem.setYear(yearToday);
+                    newItem.setStartTime(timeStart);
+                    newItem.setToDo(txtTitle.getText());
                     
+                    iCtrl.addItem(newItem);
                 }
             }
         });

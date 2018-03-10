@@ -8,7 +8,7 @@ package control;
 import model.Item;
 import model.ItemsServices;
 import view.CalendarProgram;
-
+import java.util.List;
 /**
  *
  * @author Kyle
@@ -68,6 +68,10 @@ public class ItemController {
                 return true;
             else
                 return false;
+        }
+        
+        public List<Item> getAllItems(){
+            return service.getAll();
         }
 }
 
