@@ -85,12 +85,15 @@ public class ItemController {
             return false;
         }
     }
-    public void WeekView(ArrayList<Integer> days){
+
+    public void WeekView(ArrayList<Integer> days) {
+        System.out.println("HERE ARE THE DAYS" + days);
         List<Item> temp = new ArrayList<>();
-        int count = 0;
-        int[] firstWeek = {1,2,3,4,5,6,7};
-        int[] lastWeek = new int[7];        
-        if (view.getMonth() == 2){
+        int count1 = 0;
+        int count2 = 0;
+        int[] firstWeek = {1, 2, 3, 4, 5, 6, 7};
+        int[] lastWeek = new int[7];
+        if (view.getMonth()-1 == 2) {
             lastWeek[0] = 22;
             lastWeek[1] = 23;
             lastWeek[2] = 24;
@@ -98,8 +101,15 @@ public class ItemController {
             lastWeek[4] = 26;
             lastWeek[5] = 27;
             lastWeek[6] = 28;
-        }
-        else if(view.getMonth() == 4 || view.getMonth() == 6 || view.getMonth() == 9 || view.getMonth() == 11){
+        } else if (view.getMonth()-1 == 4 || view.getMonth()-1 == 6 || view.getMonth()-1 == 9 || view.getMonth()-1 == 11) {
+            lastWeek[0] = 24;
+            lastWeek[1] = 25;
+            lastWeek[2] = 26;
+            lastWeek[3] = 27;
+            lastWeek[4] = 28;
+            lastWeek[5] = 29;
+            lastWeek[6] = 30;
+        } else {
             lastWeek[0] = 25;
             lastWeek[1] = 26;
             lastWeek[2] = 27;
@@ -108,35 +118,37 @@ public class ItemController {
             lastWeek[5] = 30;
             lastWeek[6] = 31;
         }
-        else{
-            lastWeek[0] = 24;
-            lastWeek[1] = 25;
-            lastWeek[2] = 26;
-            lastWeek[3] = 27;
-            lastWeek[4] = 28;
-            lastWeek[5] = 29;
-            lastWeek[6] = 30;
+
+        for (int i : days) {
+            if (i > 0) {
+                count1++;
+            }
+            if (i < 1){
+                count2++;
+            }
         }
-                
-        for (int i: days)
-            if(i < 1)
-                count++;
-        for (int i = 0; i < days.size(); i++){
-            System.out.println(days.get(i));
-            //if(days.contains(31) || days.contains(30) || (days.contains(28) && view.getMonth() == 2) && days.contains(0))
-            //   temp = service.getAllByDay(view.getMonth()+1, days.get(i), view.getYear());
-            temp = service.getAllByDay(view.getMonth(), days.get(i), view.getYear());
-            
+        for (int i = 0; i < days.size(); i++) {
+            if ((days.contains(31) || days.contains(30) || (days.contains(28) && view.getMonth() == 2)) && days.get(i) < 1) {
+                System.out.println("HERE HAS ENTERED");
+                temp = service.getAllByDay(view.getMonth() + 1, firstWeek[i - count1], view.getYear());
+            } else if (days.contains(1) && days.get(i) < 1) {
+                System.out.println("FUCK ME HERE " + lastWeek[count1+i]);
+                temp = service.getAllByDay(view.getMonth() - 1, lastWeek[count1+i], view.getYear());
+            } else {
+                temp = service.getAllByDay(view.getMonth(), days.get(i), view.getYear());
+            }
+
             view.getToDoPanel().setItemsWeek(temp, i);
-            view.revalidate();
-            view.repaint();
+
         }
-        
+        view.revalidate();
+        view.repaint();
     }
+
     public List<Item> getAllItems() {
         return service.getAll();
     }
-    
+
     public List<Item> getAllToDoToday() {
         return service.getAllByDayToDo(view.getMonth(), view.getDay(), view.getYear());
     }

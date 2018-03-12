@@ -64,7 +64,7 @@ public class CalendarProgram {
     public void refreshCalendar(int month, int year) {
         String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         int nod, som, i, j;
-        Calendar today = Calendar.getInstance();
+        
         btnPrev.setEnabled(true);
         btnNext.setEnabled(true);
         if (month == 0 && year <= yearBound - 10) {
@@ -73,7 +73,7 @@ public class CalendarProgram {
         if (month == 11 && year >= yearBound + 100) {
             btnNext.setEnabled(false);
         }
-        monthLabel.setText(months[month] + " " + yearToday);
+        monthLabel.setText(months[month]+ " " + dayToday + ", " + yearToday);
         monthLabel.setBounds(280 - monthLabel.getPreferredSize().width / 2, 240, 300, 50);
 
         cmbYear.setSelectedItem("" + year);
@@ -168,6 +168,7 @@ public class CalendarProgram {
         scrollToDo.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollToDo.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollToDo.setBounds(calendarPanel.getX() + 350, calendarPanel.getY(), 691, 701);
+        ItemControl.filterToDo(monthToday+1,dayToday,yearToday);
     }
 
     public CalendarProgram() {
@@ -191,10 +192,14 @@ public class CalendarProgram {
         ImageIcon btnToDoIcon = new ImageIcon(new ImageIcon(todoUrl).getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH));
         URL schedUrl = CalendarProgram.class.getResource("/view/rsrc/Sched.png");
         ImageIcon btnSchedIcon = new ImageIcon(new ImageIcon(schedUrl).getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH));
+        URL weekUrl = CalendarProgram.class.getResource("/view/rsrc/Week.png");
+        ImageIcon btnWeekIcon = new ImageIcon(new ImageIcon(weekUrl).getImage().getScaledInstance(300, 300, Image.SCALE_SMOOTH));
         URL nextUrl = CalendarProgram.class.getResource("/view/rsrc/ArrowRight.png");
         ImageIcon btnNextIcon = new ImageIcon(new ImageIcon(nextUrl).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
         URL prevUrl = CalendarProgram.class.getResource("/view/rsrc/ArrowLeft.png");
         ImageIcon btnPrevIcon = new ImageIcon(new ImageIcon(prevUrl).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+        URL addUrl = CalendarProgram.class.getResource("/view/rsrc/Add.png");
+        ImageIcon btnAddIcon = new ImageIcon(new ImageIcon(addUrl).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
 
         monthLabel = new JLabel("January ");
         yearLabel = new JLabel("Change year:");
@@ -204,8 +209,8 @@ public class CalendarProgram {
         btnTask = new JButton(btnToDoIcon);
         btnSched = new JButton(btnSchedIcon);
         btnDelete = new JButton(btnDeleteIcon);
-        btnWeek = new JButton("Week");
-        btnAddItem = new JButton("Add Event");
+        btnWeek = new JButton(btnWeekIcon);
+        btnAddItem = new JButton(btnAddIcon);
         countLabel = new JLabel("Tasks left for today: 0");
         modelCalendarTable = new DefaultTableModel() {
             public boolean isCellEditable(int rowIndex, int mColIndex) {
@@ -233,6 +238,7 @@ public class CalendarProgram {
                         for (int i = 0; i < events.size(); i++)
                             System.out.println(events.get(i).toString());
                  */
+                refreshCalendar(monthBound, yearBound);
             }
         });
 
@@ -257,6 +263,8 @@ public class CalendarProgram {
         btnTask.setToolTipText("See ToDo List");
         btnSched.setFocusable(false);
         btnSched.setToolTipText("See schedule for today");
+        btnWeek.setFocusable(false);
+        btnWeek.setToolTipText("See schedule for week");
         btnNext.setFocusable(false);
         btnPrev.setFocusable(false);
 
@@ -286,7 +294,7 @@ public class CalendarProgram {
         });
 
         calendarPanel.add(btnAddItem);
-        btnAddItem.setBounds(19, 600, 120, 40);
+        btnAddItem.setBounds(19, 600, 50, 50);
 
         /**
          * ************
@@ -300,7 +308,7 @@ public class CalendarProgram {
         btnTask.setBounds(20, 25, 100, 130);
         btnSched.setBounds(220, 25, 100, 130);
         btnDelete.setBounds(290, 650, 30, 30);
-        btnWeek.setBounds(120,25,100,130);
+        btnWeek.setBounds(120,30,100,130);
         countLabel.setBounds(20, 640, 300, 50);
         scrollCalendarTable.setBounds(20, 300, 300, 290);
 
@@ -314,7 +322,7 @@ public class CalendarProgram {
         monthToday = monthBound;
         yearToday = yearBound;
         dayToday = dayBound;
-
+        
         String[] headers = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; //All headers
         for (int i = 0; i < 7; i++) {
             modelCalendarTable.addColumn(headers[i]);
@@ -372,7 +380,7 @@ public class CalendarProgram {
                 if(modelCalendarTable.getValueAt(todayRow, i) != null)
                     temp.add(Integer.parseInt(modelCalendarTable.getValueAt(todayRow, i).toString()));
                 else
-                    temp.add(-i);
+                    temp.add(0);
             ItemControl.WeekView(temp);
         }
     }

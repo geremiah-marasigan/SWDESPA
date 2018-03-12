@@ -184,7 +184,7 @@ public class ToDoItem extends JPanel {
         this();
 
         setController(con);
-        
+        System.out.println("DAY HERE" + day);
         this.item = item;
         if(first)
             timeLabel.setText(days[day]);

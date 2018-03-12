@@ -107,7 +107,6 @@ public class ToDoPanel extends JPanel {
     public void setItemsWeek(List<Item> directory, int day) {
         if (directory != null) {
             if (day == 0) {
-                
                 for (int i = 0; i < items.size(); i++) {
                     remove(items.get(i));
                 }
@@ -115,7 +114,8 @@ public class ToDoPanel extends JPanel {
                 add(headerWeek);
                 items.clear();
             }
-            if (directory.size() > 0) {
+                if(directory.size() == 0)
+                    items.add(new ToDoItem(controller,  null, day, true));
                 boolean first = true;
                 for (int i = 0; i < directory.size(); i++) {
                     if(first)
@@ -124,14 +124,10 @@ public class ToDoPanel extends JPanel {
                     first = false;
                     
                 }
-
                 for (int i = 0; i < items.size(); i++) {
                     add(items.get(i));
                 }
-            } else {
-                add(new ToDoItem(controller,  null, day, true));
-                System.out.println("FUCK ME HARD");
-            }
+            
             
         }
 
