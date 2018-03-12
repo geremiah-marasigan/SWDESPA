@@ -118,7 +118,6 @@ public class ToDoItem extends JPanel {
                 }
             }
             todoLabel.setForeground(Color.blue);
-            btnDelete.setVisible(false);
             btnComplete.setVisible(false);
         }
 
