@@ -18,7 +18,9 @@ import javax.swing.JPanel;
 import control.ItemController;
 import java.awt.Image;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import model.Item;
 
@@ -127,6 +129,7 @@ public class ToDoItem extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 //cp.events.remove(event);
                 control.deleteItem(item);
+                control.updateCount();
             }
         });
         btnComplete.addActionListener(new ActionListener() {
@@ -135,6 +138,7 @@ public class ToDoItem extends JPanel {
                 control.deleteItem(item);
                 item.setDone(1);
                 control.addItem(item);
+                control.updateCount();
             }
         });
         this.setBorder(BorderFactory.createTitledBorder(""));

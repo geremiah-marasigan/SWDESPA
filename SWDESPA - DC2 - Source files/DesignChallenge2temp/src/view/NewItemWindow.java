@@ -167,20 +167,32 @@ public class NewItemWindow extends JFrame{
                 /*Check if conflict, set error to true*/
                 List<Item> items = iCtrl.getAllItems();
                 Calendar iCalendar = Calendar.getInstance();
-                Calendar calEnd = cal;
+                Calendar iCalendarEnd = Calendar.getInstance();
+                Calendar calEnd = Calendar.getInstance();
+                try{
+                    calEnd.setTime(df.parse(dateString));
+                } catch(ParseException ex){
+                    System.out.println(ex.getMessage());
+                }
                 calEnd.add(Calendar.MINUTE, 30*interval);
                 for(Item i: items){
                     String temp;
                     temp = String.format("%02d",i.getMonth()) + "/" + String.format("%02d",i.getDay()) + "/" + String.format("%04d",i.getYear()) + " " + i.getStartTime();
                     try{
                         iCalendar.setTime(df.parse(temp));
+                        iCalendarEnd.setTime(df.parse(temp));
                     } catch(ParseException ex){
                         System.out.println(ex.getMessage());
                     }
-                    Calendar iCalendarEnd = iCalendar;
                     iCalendarEnd.add(Calendar.MINUTE, 30*i.getInterval());
+                    System.out.println("Calendar Start: " + cal.toString());
+                    System.out.println("Calendar End: " + calEnd.toString());
+                    System.out.println("iCalendar Start: " + iCalendar.toString());
+                    System.out.println("iCalendar End: " + iCalendarEnd.toString());
+                    
                     if(cal.compareTo(iCalendar) > 0 && cal.compareTo(iCalendarEnd) < 0 || /*Start is after iStart and before iEnd*/
-                       iCalendar.compareTo(cal) > 0 && iCalendar.compareTo(calEnd) < 0)  /*iStart is after Start and before End*/
+                       iCalendar.compareTo(cal) > 0 && iCalendar.compareTo(calEnd) < 0 || /*iStart is after Start and before End*/
+                       cal.compareTo(iCalendar) == 0)  /*Start and iStart are equal*/
                         error = true;
                 }
                 
@@ -210,6 +222,7 @@ public class NewItemWindow extends JFrame{
                     newItem.setToDo(txtTitle.getText());
                     
                     iCtrl.addItem(newItem);
+                    iCtrl.updateCount();
                     NewItemWindow.this.dispose();
                 }
             }

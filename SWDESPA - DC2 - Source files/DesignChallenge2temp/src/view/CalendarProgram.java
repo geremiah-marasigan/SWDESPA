@@ -27,13 +27,13 @@ public class CalendarProgram {
     /**
      * ** Day Components ***
      */
-    public int yearBound, monthBound, dayBound, yearToday, monthToday, dayToday, todayRow,todayCol;
+    public int yearBound, monthBound, dayBound, yearToday, monthToday, dayToday, todayRow, todayCol;
 
     /**
      * ** Swing Components ***
      */
     public JLabel monthLabel, yearLabel, eventLabel, timeLabel, todoLabel, countLabel;
-    public JButton btnPrev, btnNext, btnAddtoDo, btnTask, btnSched, btnDelete, btnWeek;
+    public JButton btnPrev, btnNext, btnAddtoDo, btnTask, btnSched, btnDelete, btnWeek, btnToDo, btnEvent;
     public JComboBox cmbYear;
     public JFrame frmMain;
     public Container pane;
@@ -64,7 +64,7 @@ public class CalendarProgram {
     public void refreshCalendar(int month, int year) {
         String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         int nod, som, i, j;
-        
+
         btnPrev.setEnabled(true);
         btnNext.setEnabled(true);
         if (month == 0 && year <= yearBound - 10) {
@@ -73,7 +73,7 @@ public class CalendarProgram {
         if (month == 11 && year >= yearBound + 100) {
             btnNext.setEnabled(false);
         }
-        monthLabel.setText(months[month]+ " " + dayToday + ", " + yearToday);
+        monthLabel.setText(months[month] + " " + dayToday + ", " + yearToday);
         monthLabel.setBounds(280 - monthLabel.getPreferredSize().width / 2, 240, 300, 50);
 
         cmbYear.setSelectedItem("" + year);
@@ -87,13 +87,13 @@ public class CalendarProgram {
         GregorianCalendar cal = new GregorianCalendar(year, month, 1);
         nod = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         som = cal.get(GregorianCalendar.DAY_OF_WEEK);
-        
+
         Date now = new Date();
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         System.out.println(calendar.get(Calendar.DAY_OF_WEEK));
-        
+
         for (i = 1; i <= nod; i++) {
             String eventMonth = "";
             int row = (i + som - 2) / 7;
@@ -168,7 +168,7 @@ public class CalendarProgram {
         scrollToDo.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollToDo.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollToDo.setBounds(calendarPanel.getX() + 350, calendarPanel.getY(), 691, 701);
-        ItemControl.filterToDo(monthToday+1,dayToday,yearToday);
+        ItemControl.filterToDo(monthToday + 1, dayToday, yearToday);
     }
 
     public CalendarProgram() {
@@ -200,7 +200,11 @@ public class CalendarProgram {
         ImageIcon btnPrevIcon = new ImageIcon(new ImageIcon(prevUrl).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
         URL addUrl = CalendarProgram.class.getResource("/view/rsrc/Add.png");
         ImageIcon btnAddIcon = new ImageIcon(new ImageIcon(addUrl).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
-
+        URL taskUrl = CalendarProgram.class.getResource("/view/rsrc/FilterTask.png");
+        ImageIcon btnTaskIcon = new ImageIcon(new ImageIcon(taskUrl).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+        URL eventUrl = CalendarProgram.class.getResource("/view/rsrc/FilterEvent.png");
+        ImageIcon btnEventIcon = new ImageIcon(new ImageIcon(eventUrl).getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
+        
         monthLabel = new JLabel("January ");
         yearLabel = new JLabel("Change year:");
         cmbYear = new JComboBox();
@@ -209,6 +213,8 @@ public class CalendarProgram {
         btnTask = new JButton(btnToDoIcon);
         btnSched = new JButton(btnSchedIcon);
         btnDelete = new JButton(btnDeleteIcon);
+        btnToDo = new JButton(btnTaskIcon);
+        btnEvent = new JButton(btnEventIcon);
         btnWeek = new JButton(btnWeekIcon);
         btnAddItem = new JButton(btnAddIcon);
         countLabel = new JLabel("Tasks left for today: 0");
@@ -227,8 +233,8 @@ public class CalendarProgram {
                 dayToday = Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString());
                 todayRow = row;
                 ItemControl.filterToDo(monthToday + 1, dayToday, yearToday);
-                countLabel.setText("Tasks left for today: " + ItemControl.getAllToDoToday().size());
-                
+                countLabel.setText("Tasks left for today: " + ItemControl.getAllToDoNotDone().size());
+
                 /*
                         NewEventWindow frmEventAdder = new NewEventWindow(monthToday+1,yearToday,Integer.parseInt(modelCalendarTable.getValueAt(row, col).toString().split(" ")[0]),CalendarProgram.this);
                         frmEventAdder.setResizable(false);
@@ -254,7 +260,10 @@ public class CalendarProgram {
         btnDelete.addActionListener(new btnDelete_Action());
         btnWeek.addActionListener(new btnWeek_Action());
         cmbYear.addActionListener(new cmbYear_Action());
-
+        btnToDo.addActionListener(new btnToDo_Action());
+        btnEvent.addActionListener(new btnEvent_Action());
+        
+        
         //FONT SETTINGS
         //ICON SETTINGS
         btnDelete.setFocusable(false);
@@ -265,6 +274,10 @@ public class CalendarProgram {
         btnSched.setToolTipText("See schedule for today");
         btnWeek.setFocusable(false);
         btnWeek.setToolTipText("See schedule for week");
+        btnToDo.setFocusable(false);
+        btnToDo.setToolTipText("Filter by todos");
+        btnEvent.setFocusable(false);
+        btnWeek.setToolTipText("FIlter by events");
         btnNext.setFocusable(false);
         btnPrev.setFocusable(false);
 
@@ -276,6 +289,8 @@ public class CalendarProgram {
         calendarPanel.add(btnPrev);
         calendarPanel.add(btnNext);
         calendarPanel.add(btnTask);
+        calendarPanel.add(btnEvent);
+        calendarPanel.add(btnToDo);
         calendarPanel.add(btnSched);
         calendarPanel.add(btnDelete);
         calendarPanel.add(btnWeek);
@@ -308,7 +323,9 @@ public class CalendarProgram {
         btnTask.setBounds(20, 25, 100, 130);
         btnSched.setBounds(220, 25, 100, 130);
         btnDelete.setBounds(290, 650, 30, 30);
-        btnWeek.setBounds(120,30,100,130);
+        btnWeek.setBounds(120, 30, 100, 130);
+        btnEvent.setBounds(220,160,100,50);
+        btnToDo.setBounds(20,160,100,50);
         countLabel.setBounds(20, 640, 300, 50);
         scrollCalendarTable.setBounds(20, 300, 300, 290);
 
@@ -322,7 +339,7 @@ public class CalendarProgram {
         monthToday = monthBound;
         yearToday = yearBound;
         dayToday = dayBound;
-        
+
         String[] headers = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; //All headers
         for (int i = 0; i < 7; i++) {
             modelCalendarTable.addColumn(headers[i]);
@@ -376,15 +393,17 @@ public class CalendarProgram {
 
         public void actionPerformed(ActionEvent e) {
             ArrayList<Integer> temp = new ArrayList<>();
-            for(int i = 0; i < 7; i++)
-                if(modelCalendarTable.getValueAt(todayRow, i) != null)
+            for (int i = 0; i < 7; i++) {
+                if (modelCalendarTable.getValueAt(todayRow, i) != null) {
                     temp.add(Integer.parseInt(modelCalendarTable.getValueAt(todayRow, i).toString()));
-                else
+                } else {
                     temp.add(0);
+                }
+            }
             ItemControl.WeekView(temp);
         }
     }
-    
+
     class btnDelete_Action implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -392,7 +411,21 @@ public class CalendarProgram {
             btnDelete.setSelected(false);
         }
     }
+    
+    class btnToDo_Action implements ActionListener {
 
+        public void actionPerformed(ActionEvent e) {
+            ItemControl.filterToDoToday();
+        }
+    }
+    
+    class btnEvent_Action implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            ItemControl.filterEventToday();
+        }
+    }
+    
     class btnPrev_Action implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
@@ -461,4 +494,7 @@ public class CalendarProgram {
         return this.ToDoPanel;
     }
 
+    public void updateCount(){
+        countLabel.setText("Tasks left for today: " + ItemControl.getAllToDoNotDone().size());
+    }
 }

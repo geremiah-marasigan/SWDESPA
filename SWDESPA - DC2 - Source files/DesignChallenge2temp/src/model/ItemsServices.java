@@ -213,4 +213,80 @@ public class ItemsServices {
         return item;
 
     }
+    
+    public List<Item> getAllByDayEvent(int month, int day, int year) {
+        List<Item> item = new ArrayList<Item>();
+        Connection connect = connection.getConnection();
+        String query = "SELECT * "
+                + " FROM " + Item.TABLE
+                + " WHERE " + Item.COL_MN + " = ? AND "
+                + Item.COL_DY + " = ? AND " + Item.COL_YR + " = ? AND "
+                + Item.COL_DN + " = ?"
+                + " ORDER BY " + Item.COL_ST;
+
+        try {
+            PreparedStatement statement = connect.prepareStatement(query);
+            statement.setInt(1, month);
+            statement.setInt(2, day);
+            statement.setInt(3, year);
+            statement.setInt(4, -1);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                item.add(toItem(rs));
+            }
+
+            rs.close();
+            statement.close();
+            connect.close();
+
+            System.out.println("[ITEMS] SELECT SUCCESS!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("[ITEMS] SELECT FAILED!");
+            return null;
+        }
+
+        return item;
+
+    }
+    
+    public List<Item> getAllByDayToDoDone(int month, int day, int year) {
+        List<Item> item = new ArrayList<Item>();
+        Connection connect = connection.getConnection();
+        String query = "SELECT * "
+                + " FROM " + Item.TABLE
+                + " WHERE " + Item.COL_MN + " = ? AND "
+                + Item.COL_DY + " = ? AND " + Item.COL_YR + " = ? AND "
+                + Item.COL_DN + " = ?"
+                + " ORDER BY " + Item.COL_ST;
+
+        try {
+            PreparedStatement statement = connect.prepareStatement(query);
+            statement.setInt(1, month);
+            statement.setInt(2, day);
+            statement.setInt(3, year);
+            statement.setInt(4, 0);
+
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                item.add(toItem(rs));
+            }
+
+            rs.close();
+            statement.close();
+            connect.close();
+
+            System.out.println("[ITEMS] SELECT SUCCESS!");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("[ITEMS] SELECT FAILED!");
+            return null;
+        }
+
+        return item;
+
+    }
 }

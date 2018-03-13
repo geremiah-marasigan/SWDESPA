@@ -148,8 +148,26 @@ public class ItemController {
     public List<Item> getAllItems() {
         return service.getAll();
     }
-
+    
+    public void updateCount(){
+        view.updateCount();
+    }
+    
+    public List<Item> getAllToDoNotDone() {
+        return service.getAllByDayToDoDone(view.getMonth(), view.getDay(), view.getYear());
+    }
+    
     public List<Item> getAllToDoToday() {
         return service.getAllByDayToDo(view.getMonth(), view.getDay(), view.getYear());
+    }
+    public void filterToDoToday(){
+        view.getToDoPanel().setItems(service.getAllByDayToDo(view.getMonth(), view.getDay(), view.getYear()));
+        view.revalidate();
+        view.repaint();
+    }
+    public void filterEventToday(){
+        view.getToDoPanel().setItems(service.getAllByDayEvent(view.getMonth(), view.getDay(), view.getYear()));
+        view.revalidate();
+        view.repaint();
     }
 }

@@ -7,7 +7,9 @@ package view;
 
 import control.ItemController;
 import java.awt.Dimension;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JPanel;
 import model.Item;
@@ -84,6 +86,33 @@ public class ToDoPanel extends JPanel {
     public void setItems(List<Item> directory) {
         removeAll();
         add(headerToDo);
+        SimpleDateFormat tn = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat dn = new SimpleDateFormat("MM dd yyyy");
+        int curTime = Integer.parseInt(tn.format(new Date()).replace(":",""));
+        int curDay = Integer.parseInt(dn.format(new Date()).split(" ")[1]);
+        ArrayList<String> timeInterval = new ArrayList<String>();
+
+        int min = 0;
+        for (int i = 0; i < 48; i++) {
+            String temp;
+            String hour;
+            if (min / 60 == 1) {
+                min = 0;
+            }
+            if (min != 30) {
+                temp = "00";
+            } else {
+                temp = "30";
+            }
+            if (i / 2 < 10) {
+                hour = "0" + i / 2;
+            } else {
+                hour = "" + i / 2;
+            }
+            timeInterval.add(hour + ":" + temp);
+
+            min += 30;
+        }
         if (directory != null) {
             for (int i = 0; i < items.size(); i++) {
                 remove(items.get(i));
@@ -92,7 +121,10 @@ public class ToDoPanel extends JPanel {
             items.clear();
 
             for (int i = 0; i < directory.size(); i++) {
-                items.add(new ToDoItem(controller, this, directory.get(i)));
+                if(directory.get(i).getDone() == -1 && curTime > Integer.parseInt(timeInterval.get(timeInterval.indexOf(directory.get(i).getStartTime()) + directory.get(i).getInterval()).replace(":", "")) && directory.get(i).getDay() == curDay )
+                        ;
+                else
+                    items.add(new ToDoItem(controller, this, directory.get(i)));
             }
             if (items.size() != 0) {
                 for (int i = 0; i < items.size(); i++) {
